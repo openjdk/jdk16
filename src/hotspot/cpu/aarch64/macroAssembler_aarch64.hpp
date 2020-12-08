@@ -967,7 +967,9 @@ public:
 
   void verify_sve_vector_length();
   void reinitialize_ptrue() {
-    sve_ptrue(ptrue, B);
+    if (UseSVE > 0) {
+      sve_ptrue(ptrue, B);
+    }
   }
   void verify_ptrue();
 

@@ -245,7 +245,10 @@ bool PosixSignals::pd_hotspot_signal_handler(int sig, siginfo_t* info,
           tty->print_cr("trap: %s: (SIGILL)", msg);
         }
 
-        return false; // Fatal error
+        va_list detail_args;
+        VMError::report_and_die(INTERNAL_ERROR, msg, detail_msg, detail_args, thread,
+                                pc, info, NULL, NULL, 0, 0);
+        va_end(detail_args);
       }
       else
 
