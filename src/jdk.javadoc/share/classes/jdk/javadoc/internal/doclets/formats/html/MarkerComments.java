@@ -95,13 +95,13 @@ public class MarkerComments {
      * Marker to identify start of annotation type optional member summary.
      */
     public static final Comment START_OF_ANNOTATION_TYPE_OPTIONAL_MEMBER_SUMMARY =
-            new Comment("=========== ANNOTATION TYPE OPTIONAL MEMBER SUMMARY ===========");
+            new Comment("=========== ANNOTATION INTERFACE OPTIONAL MEMBER SUMMARY ===========");
 
     /**
      * Marker to identify start of annotation type required member summary.
      */
     public static final Comment START_OF_ANNOTATION_TYPE_REQUIRED_MEMBER_SUMMARY =
-            new Comment("=========== ANNOTATION TYPE REQUIRED MEMBER SUMMARY ===========");
+            new Comment("=========== ANNOTATION INTERFACE REQUIRED MEMBER SUMMARY ===========");
 
     /**
      * Marker to identify start of constructor summary.
@@ -137,13 +137,13 @@ public class MarkerComments {
      * Marker to identify start of annotation type details.
      */
     public static final Comment START_OF_ANNOTATION_TYPE_DETAILS =
-            new Comment("============ ANNOTATION TYPE MEMBER DETAIL ===========");
+            new Comment("============ ANNOTATION INTERFACE MEMBER DETAIL ===========");
 
     /**
      * Marker to identify start of annotation type field details.
      */
     public static final Comment START_OF_ANNOTATION_TYPE_FIELD_DETAILS =
-            new Comment("============ ANNOTATION TYPE FIELD DETAIL ===========");
+            new Comment("============ ANNOTATION INTERFAC E FIELD DETAIL ===========");
 
     /**
      * Marker to identify start of method details.

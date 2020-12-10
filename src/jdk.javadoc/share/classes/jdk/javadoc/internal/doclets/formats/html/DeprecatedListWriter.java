@@ -78,13 +78,13 @@ public class DeprecatedListWriter extends SubWriterHolderWriter {
             case CLASS:
                 return "class";
             case ENUM:
-                return "enum";
+                return "enum.class";
             case EXCEPTION:
                 return "exception";
             case ERROR:
                 return "error";
             case ANNOTATION_TYPE:
-                return "annotation.type";
+                return "annotation.interface";
             case FIELD:
                 return "field";
             case METHOD:
@@ -94,7 +94,7 @@ public class DeprecatedListWriter extends SubWriterHolderWriter {
             case ENUM_CONSTANT:
                 return "enum.constant";
             case ANNOTATION_TYPE_MEMBER:
-                return "annotation.type.member";
+                return "annotation.interface.member";
             default:
                 throw new AssertionError("unknown kind: " + kind);
         }
