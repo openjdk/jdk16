@@ -1853,7 +1853,7 @@ JVM_END
 
 /*
  * A class is a record if and only if it is final and a direct subclass
- * of java.lang.Record and the presence of `RecordComponents` attributes;
+ * of java.lang.Record and the presence of `Record` attributes;
  * otherwise, it is not a record.
  */
 JVM_ENTRY(jboolean, JVM_IsRecord(JNIEnv *env, jclass cls))
@@ -1870,12 +1870,12 @@ JVM_ENTRY(jboolean, JVM_IsRecord(JNIEnv *env, jclass cls))
 JVM_END
 
 /*
- * Returns an array representing the RecordComponents attribute, or
- * NULL if the attribute is not present.
+ * Returns an array representing the `Record` attribute, or NULL if
+ * the attribute is not present.
  *
- * Note that this function returns the content of the RecordComponents
- * attribute if present.  A non-record class with the RecordComponents attribute
- * is not record but this function returns non-null.
+ * Note that this function returns the content of the `Record` attribute
+ * if present.  A non-record class with the `Record` attribute is not a record
+ * but this function returns non-null.
  */
 JVM_ENTRY(jobjectArray, JVM_GetRecordComponents(JNIEnv* env, jclass ofClass))
 {
