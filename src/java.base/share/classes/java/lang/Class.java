@@ -4396,10 +4396,13 @@ public final class Class<T> implements java.io.Serializable,
      *
      * Returns an array containing {@code Class} objects representing the
      * direct subinterfaces or subclasses permitted to extend or
-     * implement this class or interface if it is sealed. The order of such elements
-     * is unspecified. If this {@code Class} object represents a primitive type,
+     * implement this class or interface if it is sealed.  The order of such elements
+     * is unspecified. The array is empty if this sealed class or interface has no
+     * permitted subclass. If this {@code Class} object represents a primitive type,
      * {@code void}, an array type, or a class or interface that is not sealed,
-     * an empty array is returned.
+     * that is {@link #isSealed()} returns {@code false}, then this method returns {@code null}.
+     * Conversely, if {@link #isSealed()} returns {@code true}, then this method
+     * returns a non-null value.
      *
      * For each class or interface {@code C} which is recorded as a permitted
      * direct subinterface or subclass of this class or interface,
@@ -4412,7 +4415,8 @@ public final class Class<T> implements java.io.Serializable,
      * cannot be obtained, it is silently ignored, and not included in the result
      * array.
      *
-     * @return an array of {@code Class} objects of the permitted subclasses of this class or interface
+     * @return an array of {@code Class} objects of the permitted subclasses of this class or interface,
+     *         or {@code null} if this class or interface is not sealed.
      *
      * @throws SecurityException
      *         If a security manager, <i>s</i>, is present and the caller's
@@ -4429,8 +4433,8 @@ public final class Class<T> implements java.io.Serializable,
     @CallerSensitive
     public Class<?>[] getPermittedSubclasses() {
         Class<?>[] subClasses;
-        if (isArray() || isPrimitive() || (subClasses = getPermittedSubclasses0()).length == 0) {
-            return EMPTY_CLASS_ARRAY;
+        if (isArray() || isPrimitive() || (subClasses = getPermittedSubclasses0()) == null) {
+            return null;
         }
         if (subClasses.length > 0) {
             if (Arrays.stream(subClasses).anyMatch(c -> !isDirectSubType(c))) {
@@ -4475,7 +4479,9 @@ public final class Class<T> implements java.io.Serializable,
      * Returns {@code true} if and only if this {@code Class} object represents
      * a sealed class or interface. If this {@code Class} object represents a
      * primitive type, {@code void}, or an array type, this method returns
-     * {@code false}.
+     * {@code false}. A sealed class or interface has (possibly zero) permitted
+     * subclasses; {@link #getPermittedSubclasses()} returns a non-null but
+     * possibly empty value for a sealed class or interface.
      *
      * @return {@code true} if and only if this {@code Class} object represents a sealed class or interface.
      *
@@ -4489,7 +4495,7 @@ public final class Class<T> implements java.io.Serializable,
         if (isArray() || isPrimitive()) {
             return false;
         }
-        return getPermittedSubclasses().length != 0;
+        return getPermittedSubclasses() != null;
     }
 
     private native Class<?>[] getPermittedSubclasses0();
