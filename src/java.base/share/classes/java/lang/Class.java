@@ -3576,10 +3576,11 @@ public final class Class<T> implements java.io.Serializable,
     private native Class<?>[]    getDeclaredClasses0();
 
     /*
-     * Returns an array representing the Record attribute, or null if not present.
+     * Returns an array containing the components of the Record attribute,
+     * or null if the attribute is not present.
      *
-     * Note that this method may return non-null array on a non-record class
-     * if the Record attribute is present.
+     * Note that this method returns non-null array on a class with
+     * the Record attribute even if this class is not a record.
      */
     private native RecordComponent[] getRecordComponents0();
     private native boolean       isRecord0();
