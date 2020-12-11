@@ -23,6 +23,7 @@
 
 /**
  * @test id=c1
+ * @requires vm.compMode != "Xcomp"
  * @build compiler.blackhole.BlackholeTarget
  *
  * @run main/othervm
@@ -35,6 +36,7 @@
 
 /**
  * @test id=c2
+ * @requires vm.compMode != "Xcomp"
  * @build compiler.blackhole.BlackholeTarget
  *
  * @run main/othervm
@@ -47,6 +49,7 @@
 
 /**
  * @test id=c1-no-coops
+ * @requires vm.compMode != "Xcomp"
  * @requires vm.bits == "64"
  * @build compiler.blackhole.BlackholeTarget
  *
@@ -60,6 +63,7 @@
 
 /**
  * @test id=c2-no-coops
+ * @requires vm.compMode != "Xcomp"
  * @requires vm.bits == "64"
  * @build compiler.blackhole.BlackholeTarget
  *
