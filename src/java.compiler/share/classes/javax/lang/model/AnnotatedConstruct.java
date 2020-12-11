@@ -184,7 +184,7 @@ public interface AnnotatedConstruct {
      * @see IncompleteAnnotationException
      * @see MirroredTypeException
      * @see MirroredTypesException
-     * @jls 9.6.1 Annotation Elements
+     * @jls 9.6.1 Annotation Interface Elements
      */
     <A extends Annotation> A getAnnotation(Class<A> annotationType);
 
@@ -245,7 +245,7 @@ public interface AnnotatedConstruct {
      * @see MirroredTypeException
      * @see MirroredTypesException
      * @jls 9.6 Annotation Interfaces
-     * @jls 9.6.1 Annotation Elements
+     * @jls 9.6.1 Annotation Interface Elements
      */
     <A extends Annotation> A[] getAnnotationsByType(Class<A> annotationType);
 }
