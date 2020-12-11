@@ -1281,6 +1281,7 @@ void MethodData::initialize() {
 }
 
 void MethodData::init() {
+  _compiler_counters = CompilerCounters(_method); // reset compiler counters
   _invocation_counter.init();
   _backedge_counter.init();
   _invocation_counter_start = 0;
