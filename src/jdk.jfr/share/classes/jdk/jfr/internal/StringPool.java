@@ -35,23 +35,29 @@ public final class StringPool {
 
     static final int MIN_LIMIT = 16;
     static final int MAX_LIMIT = 128; /* 0 MAX means disabled */
-    private static final long epochAddress;
+    static final long DO_NOT_POOL = -1;
+    static final long RETRY = -2;
+    private static final long generationAddress;
     private static final SimpleStringIdPool sp = new SimpleStringIdPool();
     static {
-        epochAddress = JVM.getJVM().getEpochAddress();
+        generationAddress = JVM.getJVM().getStringPoolGenerationAddress();
         sp.reset();
     }
     public static long addString(String s) {
-        return sp.addString(s);
+        long result;
+        do {
+            result = sp.addString(s);
+        } while (result == RETRY);
+        return result;
     }
-    private static boolean getCurrentEpoch() {
-        return unsafe.getByte(epochAddress) == 1;
+    private static long getCurrentGeneration() {
+        return unsafe.getLong(generationAddress);
     }
     private static class SimpleStringIdPool {
         /* string id index */
         private final AtomicLong sidIdx = new AtomicLong(1);
-        /* epoch of cached strings */
-        private boolean poolEpoch;
+        /* generation of cached strings */
+        private long poolGen;
         /* the cache */
         private final ConcurrentHashMap<String, Long> cache;
         /* max size */
@@ -72,16 +78,16 @@ public final class StringPool {
             cache = new ConcurrentHashMap<>(MAX_SIZE, 0.75f);
         }
         void reset() {
-            reset(getCurrentEpoch());
+            reset(getCurrentGeneration());
         }
-        private void reset(boolean epoch) {
+        private void reset(long generation) {
             this.cache.clear();
-            this.poolEpoch = epoch;
+            this.poolGen = generation;
             this.currentSizeUTF16 = 0;
         }
         private long addString(String s) {
-            boolean currentEpoch = getCurrentEpoch();
-            if (poolEpoch == currentEpoch) {
+            long currentGen = getCurrentGeneration();
+            if (poolGen == currentGen) {
                 /* pool is for current chunk */
                 Long lsid = this.cache.get(s);
                 if (lsid != null) {
@@ -89,15 +95,15 @@ public final class StringPool {
                 }
             } else {
                 /* pool is for an old chunk */
-                reset(currentEpoch);
+                reset(currentGen);
             }
             if (!preCache(s)) {
                 /* we should not pool this string */
-                return -1;
+                return DO_NOT_POOL;
             }
             if (cache.size() > MAX_SIZE || currentSizeUTF16 > MAX_SIZE_UTF16) {
                 /* pool was full */
-                reset(currentEpoch);
+                reset(currentGen);
             }
             return storeString(s);
         }
@@ -106,13 +112,13 @@ public final class StringPool {
             long sid = this.sidIdx.getAndIncrement();
             /* we can race but it is ok */
             this.cache.put(s, sid);
-            boolean currentEpoch;
+            long currentGen;
             synchronized(SimpleStringIdPool.class) {
-                currentEpoch = JVM.addStringConstant(poolEpoch, sid, s);
+                currentGen = JVM.addStringConstant(poolGen, sid, s);
                 currentSizeUTF16 += s.length();
             }
             /* did we write in chunk that this pool represent */
-            return currentEpoch == poolEpoch ? sid : -1;
+            return currentGen == poolGen ? sid : RETRY;
         }
         private boolean preCache(String s) {
             if (preCache[0].equals(s)) {

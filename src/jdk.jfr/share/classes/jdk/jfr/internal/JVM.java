@@ -488,18 +488,18 @@ public final class JVM {
      *
      * @param s string constant to be added, not null
      *
-     * @return the current epoch of this insertion attempt
+     * @return the current generation of the StringPool of this insertion attempt
      */
-    public static native boolean addStringConstant(boolean epoch, long id, String s);
+    public static native long addStringConstant(long generation, long id, String s);
 
     /**
-     * Gets the address of the jboolean epoch.
+     * Gets the address of the StringPool generation.
      *
-     * The epoch alternates every checkpoint.
+     * The generation increments every checkpoint.
      *
-     * @return The address of the jboolean.
+     * @return The address of the generation variable.
      */
-    public native long getEpochAddress();
+    public native long getStringPoolGenerationAddress();
 
     public native void uncaughtException(Thread thread, Throwable t);
 
