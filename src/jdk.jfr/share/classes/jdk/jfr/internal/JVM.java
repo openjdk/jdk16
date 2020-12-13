@@ -495,11 +495,11 @@ public final class JVM {
     public static native long addStringConstant(long generation, long id, String s);
 
     /**
-     * Gets the address of the StringPool generation.
+     * Gets the address of the string constant pool generation counter.
      *
-     * The generation increments every checkpoint.
+     * The generation counter increments on every rotation.
      *
-     * @return The address of the generation variable.
+     * @return The address of the generation counter.
      */
     public native long getStringPoolGenerationAddress();
 
