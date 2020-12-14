@@ -30,9 +30,9 @@
 class Klass;
 class Thread;
 
-class JfrObjectAllocationSample : public StackObj {
+class JfrObjectAllocationSample : AllStatic {
   friend class JfrAllocationTracer;
-  JfrObjectAllocationSample(const Klass* klass, size_t alloc_size, bool outside_tlab, Thread* thread);
+  static void send_event(const Klass* klass, size_t alloc_size, bool outside_tlab, Thread* thread);
 };
 
-#endif
+#endif // SHARE_JFR_SUPPORT_JFROBJECTALLOCATIONSAMPLE_HPP

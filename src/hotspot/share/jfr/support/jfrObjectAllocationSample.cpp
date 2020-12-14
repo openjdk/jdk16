@@ -23,9 +23,9 @@
 */
 
 #include "precompiled.hpp"
+#include "gc/shared/threadLocalAllocBuffer.inline.hpp"
 #include "jfr/jfrEvents.hpp"
 #include "jfr/support/jfrObjectAllocationSample.hpp"
-#include "gc/shared/threadLocalAllocBuffer.inline.hpp"
 #include "utilities/globalDefinitions.hpp"
 
 static THREAD_LOCAL int64_t _last_allocated_bytes = 0;
@@ -100,7 +100,7 @@ static void normalize_as_tlab_and_send_allocation_samples(const Klass* klass, in
   } while (obj_alloc_size_bytes > 0);
 }
 
-JfrObjectAllocationSample::JfrObjectAllocationSample(const Klass* klass, size_t alloc_size, bool outside_tlab, Thread* thread) {
+void JfrObjectAllocationSample::send_event(const Klass* klass, size_t alloc_size, bool outside_tlab, Thread* thread) {
   if (outside_tlab) {
     normalize_as_tlab_and_send_allocation_samples(klass, static_cast<intptr_t>(alloc_size), thread);
     return;
@@ -111,4 +111,3 @@ JfrObjectAllocationSample::JfrObjectAllocationSample(const Klass* klass, size_t 
   }
   send_allocation_sample(klass, allocated_bytes);
 }
-

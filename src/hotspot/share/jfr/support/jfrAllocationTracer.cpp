@@ -30,7 +30,7 @@
 #include "runtime/thread.hpp"
 
 JfrAllocationTracer::JfrAllocationTracer(const Klass* klass, HeapWord* obj, size_t alloc_size, bool outside_tlab, Thread* thread) : _tl(NULL) {
-  JfrObjectAllocationSample sample(klass, alloc_size, outside_tlab, thread);
+  JfrObjectAllocationSample::send_event(klass, alloc_size, outside_tlab, thread);
   if (LeakProfiler::is_running()) {
     _tl = thread->jfr_thread_local();
     LeakProfiler::sample(obj, alloc_size, thread->as_Java_thread());
