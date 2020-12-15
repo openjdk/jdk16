@@ -36,19 +36,14 @@ public final class StringPool {
     static final int MIN_LIMIT = 16;
     static final int MAX_LIMIT = 128; /* 0 MAX means disabled */
     static final long DO_NOT_POOL = -1;
-    static final long RETRY = -2;
     private static final long generationAddress;
-    private static final SimpleStringIdPool sp = new SimpleStringIdPool();
+    private static final SimpleStringIdPool sp;
     static {
         generationAddress = JVM.getJVM().getStringPoolGenerationAddress();
-        sp.reset();
+        sp = new SimpleStringIdPool(getCurrentGeneration());
     }
     public static long addString(String s) {
-        long result;
-        do {
-            result = sp.addString(s);
-        } while (result == RETRY);
-        return result;
+        return sp.addString(s);
     }
     private static long getCurrentGeneration() {
         return unsafe.getLong(generationAddress);
@@ -66,7 +61,6 @@ public final class StringPool {
         private final long MAX_SIZE_UTF16 = 16*1024*1024;
         /* max size bytes*/
         private long currentSizeUTF16;
-
         /* looking at a biased data set 4 is a good value */
         private final String[] preCache = new String[]{"", "" , "" ,""};
         /* index of oldest */
@@ -74,11 +68,9 @@ public final class StringPool {
         /* loop mask */
         private static final int preCacheMask = 0x03;
 
-        SimpleStringIdPool() {
-            cache = new ConcurrentHashMap<>(MAX_SIZE, 0.75f);
-        }
-        void reset() {
-            reset(getCurrentGeneration());
+        SimpleStringIdPool(long generation) {
+            this.poolGen = generation;
+            this.cache = new ConcurrentHashMap<>(MAX_SIZE, 0.75f);
         }
         private void reset(long generation) {
             this.cache.clear();
@@ -88,7 +80,13 @@ public final class StringPool {
         private long addString(String s) {
             long currentGen = getCurrentGeneration();
             if (poolGen == currentGen) {
-                /* pool is for current chunk */
+                /* At this moment, the pool is associated with the current chunk.
+                 * If there is a safepoint that rotates the chunk after this point,
+                 * we have a safety guard in that the EventWriter will be notified,
+                 * and it will discard the stale id to string association and issue a retry.
+                 * On retry, the generations are again checked, now they differ,
+                 * and the cache is reset.
+                 */
                 Long lsid = this.cache.get(s);
                 if (lsid != null) {
                     return lsid.longValue();
@@ -112,13 +110,11 @@ public final class StringPool {
             long sid = this.sidIdx.getAndIncrement();
             /* we can race but it is ok */
             this.cache.put(s, sid);
-            long currentGen;
             synchronized(SimpleStringIdPool.class) {
-                currentGen = JVM.addStringConstant(poolGen, sid, s);
+                JVM.addStringConstant(poolGen, sid, s);
                 currentSizeUTF16 += s.length();
             }
-            /* did we write in chunk that this pool represent */
-            return currentGen == poolGen ? sid : RETRY;
+            return sid;
         }
         private boolean preCache(String s) {
             if (preCache[0].equals(s)) {

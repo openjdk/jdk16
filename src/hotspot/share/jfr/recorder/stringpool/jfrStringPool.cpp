@@ -141,10 +141,10 @@ BufferPtr JfrStringPool::lease(Thread* thread, size_t size /* 0 */) {
   return buffer;
 }
 
-jlong JfrStringPool::add(jlong gen, jlong id, jstring string, JavaThread* jt) {
+jboolean JfrStringPool::add(jlong gen, jlong id, jstring string, JavaThread* jt) {
   assert(jt != NULL, "invariant");
   if (_generation != gen) {
-    return _generation;
+    return JNI_FALSE;
   }
   {
     JfrStringPoolWriter writer(jt);
@@ -153,7 +153,7 @@ jlong JfrStringPool::add(jlong gen, jlong id, jstring string, JavaThread* jt) {
     writer.inc_nof_strings();
   }
   _new_string.signal();
-  return _generation;
+  return JNI_TRUE;
 }
 
 template <template <typename> class Operation>

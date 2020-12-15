@@ -76,7 +76,7 @@ JfrJniMethodRegistration::JfrJniMethodRegistration(JNIEnv* env) {
       (char*)"setRepositoryLocation", (char*)"(Ljava/lang/String;)V", (void*)jfr_set_repository_location,
       (char*)"abort", (char*)"(Ljava/lang/String;)V", (void*)jfr_abort,
       (char*)"getStringPoolGenerationAddress", (char*)"()J",(void*)jfr_get_string_pool_generation_address,
-      (char*)"addStringConstant", (char*)"(JJLjava/lang/String;)J", (void*)jfr_add_string_constant,
+      (char*)"addStringConstant", (char*)"(JJLjava/lang/String;)Z", (void*)jfr_add_string_constant,
       (char*)"uncaughtException", (char*)"(Ljava/lang/Thread;Ljava/lang/Throwable;)V", (void*)jfr_uncaught_exception,
       (char*)"setForceInstrumentation", (char*)"(Z)V", (void*)jfr_set_force_instrumentation,
       (char*)"getUnloadedEventClassCount", (char*)"()J", (void*)jfr_get_unloaded_event_classes_count,

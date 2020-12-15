@@ -50,7 +50,7 @@ class JfrStringPool : public JfrCHeapObj {
   size_t clear();
   size_t clear_at_safepoint();
   static jlong generation_address();
-  static jlong add(jlong gen, jlong id, jstring string, JavaThread* jt);
+  static jboolean add(jlong gen, jlong id, jstring string, JavaThread* jt);
 
   typedef JfrStringPoolMspace::Node    Buffer;
   typedef JfrStringPoolMspace::NodePtr BufferPtr;

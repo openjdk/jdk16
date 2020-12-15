@@ -490,9 +490,9 @@ public final class JVM {
      *
      * @param s string constant to be added, not null
      *
-     * @return the corresponding generation in native, must be the same as the generation attempted for a successful add.
+     * @return true, if the string was successfully added.
      */
-    public static native long addStringConstant(long generation, long id, String s);
+    public static native boolean addStringConstant(long generation, long id, String s);
 
     /**
      * Gets the address of the string constant pool generation counter.
