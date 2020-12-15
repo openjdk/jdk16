@@ -45,7 +45,7 @@ public class IncompleteAnnotationException extends RuntimeException {
     /**
      * The annotation interface.
      */
-    private Class<? extends Annotation> annotationInterface;
+    private Class<? extends Annotation> annotationType;
     /**
      * The element name.
      */
@@ -55,17 +55,17 @@ public class IncompleteAnnotationException extends RuntimeException {
      * Constructs an IncompleteAnnotationException to indicate that
      * the named element was missing from the specified annotation interface.
      *
-     * @param annotationInterface the Class object for the annotation interface
+     * @param annotationType the Class object for the annotation interface
      * @param elementName the name of the missing element
      * @throws NullPointerException if either parameter is {@code null}
      */
     public IncompleteAnnotationException(
-            Class<? extends Annotation> annotationInterface,
+            Class<? extends Annotation> annotationType,
             String elementName) {
-        super(annotationInterface.getName() + " missing element " +
+        super(annotationType.getName() + " missing element " +
               elementName.toString());
 
-        this.annotationInterface = annotationInterface;
+        this.annotationType = annotationType;
         this.elementName = elementName;
     }
 
@@ -77,7 +77,7 @@ public class IncompleteAnnotationException extends RuntimeException {
      *     missing element
      */
     public Class<? extends Annotation> annotationType() {
-        return annotationInterface;
+        return annotationType;
     }
 
     /**
