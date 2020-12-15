@@ -298,7 +298,7 @@ public class Contents {
         propertyLabel = getContent("doclet.Property");
         propertyDetailsLabel = getContent("doclet.Property_Detail");
         propertySummaryLabel = getContent("doclet.Property_Summary");
-        record = getContent("doclet.Record");
+        record = getContent("doclet.RecordClass");
         recordComponents = getContent("doclet.RecordComponents");
         referencedIn = getContent("doclet.ReferencedIn");
         returns = getContent("doclet.Returns");
@@ -332,7 +332,7 @@ public class Contents {
         this.exceptionSummary = resources.getText("doclet.Exception_Summary");
         this.interfaceSummary = resources.getText("doclet.Interface_Summary");
         this.packageSummary = resources.getText("doclet.Package_Summary");
-        this.recordSummary = resources.getText("doclet.Record_Summary");
+        this.recordSummary = resources.getText("doclet.Record_Class_Summary");
     }
 
     /**

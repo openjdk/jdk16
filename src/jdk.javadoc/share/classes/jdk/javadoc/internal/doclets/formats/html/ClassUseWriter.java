@@ -415,7 +415,7 @@ public class ClassUseWriter extends SubWriterHolderWriter {
         String cltype = resources.getText(switch (typeElement.getKind()) {
             case ANNOTATION_TYPE -> "doclet.AnnotationType";
             case INTERFACE -> "doclet.Interface";
-            case RECORD -> "doclet.Record";
+            case RECORD -> "doclet.RecordClass";
             case ENUM -> "doclet.Enum";
             default -> "doclet.Class";
         });

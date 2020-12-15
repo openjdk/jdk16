@@ -139,7 +139,6 @@ public class HtmlDoclet extends AbstractDoclet {
                 // in doclets.properties
                 { "doclet.Annotation_Types_Summary", "doclet.Annotation_Interfaces_Summary" },
                 { "doclet.Enum_Summary", "doclet.Enum_Class_Summary" },
-                { "doclet.Record_Summary", "doclet.Record_Class_Summary" },
                 { "doclet.Enums", "doclet.EnumClasses" },
                 { "doclet.AnnotationType", "doclet.AnnotationInterface" },
                 { "doclet.AnnotationTypes", "doclet.AnnotationInterfaces" },
@@ -148,17 +147,11 @@ public class HtmlDoclet extends AbstractDoclet {
                 { "doclet.Enum", "doclet.EnumClass" },
                 { "doclet.enum", "doclet.enumclass" },
                 { "doclet.enums", "doclet.enumclasses" },
-                { "doclet.Record", "doclet.RecordClass" },
-                { "doclet.record", "doclet.recordclass" },
                 { "doclet.Annotation_Type_Member", "doclet.Annotation_Interface_Member" },
                 { "doclet.enum_values_doc.fullbody", "doclet.enum_class_values_doc.fullbody" },
                 { "doclet.enum_values_doc.return", "doclet.enum_class_values_doc.return" },
                 { "doclet.enum_valueof_doc.fullbody", "doclet.enum_class_valueof_doc.fullbody" },
                 { "doclet.enum_valueof_doc.throws_ila", "doclet.enum_class_valueof_doc.throws_ila" },
-                { "doclet.record_constructor_doc.fullbody", "doclet.record_class_constructor_doc.fullbody" },
-                { "doclet.record_equals_doc.fullbody.tail.primitive", "doclet.record_class_equals_doc.fullbody.tail.primitive" },
-                { "doclet.record_equals_doc.fullbody.tail.reference", "doclet.record_class_equals_doc.fullbody.tail.reference" },
-                { "doclet.record_toString_doc.fullbody", "doclet.record_class_toString_doc.fullbody" }
         };
         for (String[] pair : pairs) {
             if (sv.compareTo(SourceVersion.RELEASE_16) >= 0) {
