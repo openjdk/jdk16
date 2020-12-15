@@ -26,7 +26,7 @@
 package java.lang.annotation;
 
 /**
- * The constants of this enumerated type provide a simple classification of the
+ * The constants of this enumerated class provide a simple classification of the
  * syntactic locations where annotations may appear in a Java program. These
  * constants are used in {@link java.lang.annotation.Target Target}
  * meta-annotations to specify where it is legal to write annotations of a
@@ -42,22 +42,22 @@ package java.lang.annotation;
  * #MODULE}, {@link #PARAMETER}, {@link #TYPE}, and {@link #TYPE_PARAMETER}
  * correspond to the declaration contexts in JLS 9.6.4.1.
  *
- * <p>For example, an annotation whose type is meta-annotated with
+ * <p>For example, an annotation whose interface is meta-annotated with
  * {@code @Target(ElementType.FIELD)} may only be written as a modifier for a
  * field declaration.
  *
  * <p>The constant {@link #TYPE_USE} corresponds to the type contexts in JLS
- * 4.11, as well as to two declaration contexts: type declarations (including
- * annotation type declarations) and type parameter declarations.
+ * 4.11, as well as to two declaration contexts: class and interface declarations (including
+ * annotation declarations) and type parameter declarations.
  *
- * <p>For example, an annotation whose type is meta-annotated with
- * {@code @Target(ElementType.TYPE_USE)} may be written on the type of a field
- * (or within the type of the field, if it is a nested, parameterized, or array
- * type), and may also appear as a modifier for, say, a class declaration.
+ * <p>For example, an annotation whose interface is meta-annotated with
+ * {@code @Target(ElementType.TYPE_USE)} may be written on the class or interface of a field
+ * (or within the class or interface of the field, if it is a nested or parameterized class or interface, or array
+ * class), and may also appear as a modifier for, say, a class declaration.
  *
- * <p>The {@code TYPE_USE} constant includes type declarations and type
+ * <p>The {@code TYPE_USE} constant includes class and interface declarations and type
  * parameter declarations as a convenience for designers of type checkers which
- * give semantics to annotation types. For example, if the annotation type
+ * give semantics to annotation interfaces. For example, if the annotation interface
  * {@code NonNull} is meta-annotated with
  * {@code @Target(ElementType.TYPE_USE)}, then {@code @NonNull}
  * {@code class C {...}} could be treated by a type checker as indicating that
@@ -71,7 +71,7 @@ package java.lang.annotation;
  * @jls 4.1 The Kinds of Types and Values
  */
 public enum ElementType {
-    /** Class, interface (including annotation type), enum, or record
+    /** Class, interface (including annotation interface), enum, or record
      * declaration */
     TYPE,
 
