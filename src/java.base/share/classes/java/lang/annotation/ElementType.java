@@ -90,7 +90,7 @@ public enum ElementType {
     /** Local variable declaration */
     LOCAL_VARIABLE,
 
-    /** Annotation type declaration */
+    /** Annotation interface declaration (Formerly known as an annotation type.) */
     ANNOTATION_TYPE,
 
     /** Package declaration */

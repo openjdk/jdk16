@@ -54,7 +54,7 @@ package java.lang.annotation;
  * declarations.  It cannot be used to annotate anything directly:
  * <pre>
  *    &#064;Target({})
- *    public &#064;interface MemberType {
+ *    public &#064;interface MemberInterface {
  *        ...
  *    }
  * </pre>
