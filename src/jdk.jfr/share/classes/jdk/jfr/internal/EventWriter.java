@@ -223,7 +223,7 @@ public final class EventWriter {
     }
 
     private void resetStringPool() {
-        StringPool.reset();       
+        StringPool.reset();
     }
 
     private int usedSize() {
