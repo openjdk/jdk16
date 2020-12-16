@@ -35,6 +35,7 @@
 #include "logging/log.hpp"
 #include "oops/oop.inline.hpp"
 #include "runtime/java.hpp"
+#include "runtime/orderAccess.hpp"
 #include "utilities/align.hpp"
 
 PSOldGen::PSOldGen(ReservedSpace rs, size_t initial_size, size_t min_size,
@@ -381,6 +382,7 @@ void PSOldGen::post_resize() {
                       &ParallelScavengeHeap::heap()->workers() : NULL;
 
   // ALWAYS do this last!!
+  OrderAccess::storestore();
   object_space()->initialize(new_memregion,
                              SpaceDecorator::DontClear,
                              SpaceDecorator::DontMangle,
