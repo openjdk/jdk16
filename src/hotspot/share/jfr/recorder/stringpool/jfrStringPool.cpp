@@ -41,16 +41,6 @@
 
 typedef JfrStringPool::BufferPtr BufferPtr;
 
-static int64_t _generation = 1;
-
-jlong JfrStringPool::generation_address() {
-  return (jlong)(&_generation);
-}
-
-inline void inc_generation() {
-  ++_generation;
-}
-
 static JfrSignal _new_string;
 
 bool JfrStringPool::is_modified() {
@@ -141,11 +131,8 @@ BufferPtr JfrStringPool::lease(Thread* thread, size_t size /* 0 */) {
   return buffer;
 }
 
-jboolean JfrStringPool::add(jlong gen, jlong id, jstring string, JavaThread* jt) {
+jboolean JfrStringPool::add(jlong id, jstring string, JavaThread* jt) {
   assert(jt != NULL, "invariant");
-  if (_generation != gen) {
-    return JNI_FALSE;
-  }
   {
     JfrStringPoolWriter writer(jt);
     writer.write(id);
@@ -209,12 +196,6 @@ size_t JfrStringPool::write() {
   return wo.processed();
 }
 
-size_t JfrStringPool::write_at_safepoint() {
-  assert(SafepointSynchronize::is_at_safepoint(), "invariant");
-  inc_generation();
-  return write();
-}
-
 size_t JfrStringPool::clear() {
   DiscardOperation discard_operation;
   ExclusiveDiscardOperation edo(discard_operation);
@@ -225,13 +206,6 @@ size_t JfrStringPool::clear() {
   process_live_list(discard_op, _mspace);
   return discard_operation.processed();
 }
-
-size_t JfrStringPool::clear_at_safepoint() {
-  assert(SafepointSynchronize::is_at_safepoint(), "invariant");
-  inc_generation();
-  return clear();
-}
-
 
 void JfrStringPool::register_full(BufferPtr buffer, Thread* thread) {
   // nothing here at the moment

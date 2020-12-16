@@ -484,24 +484,13 @@ public final class JVM {
      *
      * If the same string is added twice, two entries will be created.
      *
-     * @param generation the generation of this insertion attempt
-     *
      * @param id identifier associated with the string, not negative
      *
      * @param s string constant to be added, not null
      *
      * @return true, if the string was successfully added.
      */
-    public static native boolean addStringConstant(long generation, long id, String s);
-
-    /**
-     * Gets the address of the string constant pool generation counter.
-     *
-     * The generation counter increments on every rotation.
-     *
-     * @return The address of the generation counter.
-     */
-    public native long getStringPoolGenerationAddress();
+    public static native boolean addStringConstant(long id, String s);
 
     public native void uncaughtException(Thread thread, Throwable t);
 

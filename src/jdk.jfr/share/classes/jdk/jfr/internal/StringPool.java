@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2016, 2020, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -27,32 +27,23 @@ package jdk.jfr.internal;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import jdk.internal.misc.Unsafe;
-
 public final class StringPool {
-
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-
     static final int MIN_LIMIT = 16;
     static final int MAX_LIMIT = 128; /* 0 MAX means disabled */
-    static final long DO_NOT_POOL = -1;
-    private static final long generationAddress;
-    private static final SimpleStringIdPool sp;
-    static {
-        generationAddress = JVM.getJVM().getStringPoolGenerationAddress();
-        sp = new SimpleStringIdPool(getCurrentGeneration());
-    }
-    public static long addString(String s) {
+    private static final long DO_NOT_POOL = -1;
+    private static final SimpleStringIdPool sp = new SimpleStringIdPool();
+
+    static long addString(String s) {
         return sp.addString(s);
     }
-    private static long getCurrentGeneration() {
-        return unsafe.getLong(generationAddress);
+
+    static void reset() {
+        sp.reset();
     }
+
     private static class SimpleStringIdPool {
         /* string id index */
         private final AtomicLong sidIdx = new AtomicLong(1);
-        /* generation of cached strings */
-        private long poolGen;
         /* the cache */
         private final ConcurrentHashMap<String, Long> cache;
         /* max size */
@@ -68,32 +59,19 @@ public final class StringPool {
         /* loop mask */
         private static final int preCacheMask = 0x03;
 
-        SimpleStringIdPool(long generation) {
-            this.poolGen = generation;
+        SimpleStringIdPool() {
             this.cache = new ConcurrentHashMap<>(MAX_SIZE, 0.75f);
         }
-        private void reset(long generation) {
+
+        private void reset() {
             this.cache.clear();
-            this.poolGen = generation;
             this.currentSizeUTF16 = 0;
         }
+
         private long addString(String s) {
-            long currentGen = getCurrentGeneration();
-            if (poolGen == currentGen) {
-                /* At this moment, the pool is associated with the current chunk.
-                 * If there is a safepoint that rotates the chunk after this point,
-                 * we have a safety guard in that the EventWriter will be notified,
-                 * and it will discard the stale id to string association and issue a retry.
-                 * On retry, the generations are again checked, now they differ,
-                 * and the cache is reset.
-                 */
-                Long lsid = this.cache.get(s);
-                if (lsid != null) {
-                    return lsid.longValue();
-                }
-            } else {
-                /* pool is for an old chunk */
-                reset(currentGen);
+            Long lsid = this.cache.get(s);
+            if (lsid != null) {
+                return lsid.longValue();
             }
             if (!preCache(s)) {
                 /* we should not pool this string */
@@ -101,7 +79,7 @@ public final class StringPool {
             }
             if (cache.size() > MAX_SIZE || currentSizeUTF16 > MAX_SIZE_UTF16) {
                 /* pool was full */
-                reset(currentGen);
+                reset();
             }
             return storeString(s);
         }
@@ -111,11 +89,12 @@ public final class StringPool {
             /* we can race but it is ok */
             this.cache.put(s, sid);
             synchronized(SimpleStringIdPool.class) {
-                JVM.addStringConstant(poolGen, sid, s);
+                JVM.addStringConstant(sid, s);
                 currentSizeUTF16 += s.length();
             }
             return sid;
         }
+
         private boolean preCache(String s) {
             if (preCache[0].equals(s)) {
                 return true;
