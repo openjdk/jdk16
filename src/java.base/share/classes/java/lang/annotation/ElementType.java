@@ -47,18 +47,20 @@ package java.lang.annotation;
  * field declaration.
  *
  * <p>The constant {@link #TYPE_USE} corresponds to the type contexts in JLS
- * 4.11, as well as to two declaration contexts: class and interface declarations (including
- * annotation declarations) and type parameter declarations.
+ * 4.11, as well as to two declaration contexts: class and interface
+ * declarations (including annotation declarations) and type parameter
+ * declarations.
  *
  * <p>For example, an annotation whose interface is meta-annotated with
- * {@code @Target(ElementType.TYPE_USE)} may be written on the class or interface of a field
- * (or within the class or interface of the field, if it is a nested or parameterized class or interface, or array
- * class), and may also appear as a modifier for, say, a class declaration.
+ * {@code @Target(ElementType.TYPE_USE)} may be written on the class or
+ * interface of a field (or within the class or interface of the field, if it
+ * is a nested or parameterized class or interface, or array class), and may
+ * also appear as a modifier for, say, a class declaration.
  *
- * <p>The {@code TYPE_USE} constant includes class and interface declarations and type
- * parameter declarations as a convenience for designers of type checkers which
- * give semantics to annotation interfaces. For example, if the annotation interface
- * {@code NonNull} is meta-annotated with
+ * <p>The {@code TYPE_USE} constant includes class and interface declarations
+ * and type parameter declarations as a convenience for designers of
+ * type checkers which give semantics to annotation interfaces. For example,
+ * if the annotation interface {@code NonNull} is meta-annotated with
  * {@code @Target(ElementType.TYPE_USE)}, then {@code @NonNull}
  * {@code class C {...}} could be treated by a type checker as indicating that
  * all variables of class {@code C} are non-null, while still allowing

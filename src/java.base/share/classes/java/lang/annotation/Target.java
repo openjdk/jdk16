@@ -27,21 +27,21 @@ package java.lang.annotation;
 
 /**
  * Indicates the contexts in which an annotation interface is applicable. The
- * declaration contexts and type contexts in which an annotation interface may be
- * applicable are specified in JLS 9.6.4.1, and denoted in source code by enum
- * constants of {@link ElementType java.lang.annotation.ElementType}.
+ * declaration contexts and type contexts in which an annotation interface may
+ * be applicable are specified in JLS 9.6.4.1, and denoted in source code by
+ * enum constants of {@link ElementType java.lang.annotation.ElementType}.
  *
- * <p>If an {@code @Target} meta-annotation is not present on an annotation interface
- * {@code T}, then an annotation of type {@code T} may be written as a
- * modifier for any declaration except a type parameter declaration.
+ * <p>If an {@code @Target} meta-annotation is not present on an annotation
+ * interface {@code T}, then an annotation of type {@code T} may be written as
+ * a modifier for any declaration except a type parameter declaration.
  *
  * <p>If an {@code @Target} meta-annotation is present, the compiler will enforce
  * the usage restrictions indicated by {@code ElementType}
  * enum constants, in line with JLS 9.7.4.
  *
  * <p>For example, this {@code @Target} meta-annotation indicates that the
- * declared interface is itself a meta-annotation interface.  It can only be used on
- * annotation interface declarations:
+ * declared interface is itself a meta-annotation interface.  It can only be
+ * used on annotation interface declarations:
  * <pre>
  *    &#064;Target(ElementType.ANNOTATION_TYPE)
  *    public &#064;interface MetaAnnotationType {
@@ -49,9 +49,10 @@ package java.lang.annotation;
  *    }
  * </pre>
  *
- * <p>This {@code @Target} meta-annotation indicates that the declared class or interface is
- * intended solely for use as a member class or interface in complex annotation interface
- * declarations.  It cannot be used to annotate anything directly:
+ * <p>This {@code @Target} meta-annotation indicates that the declared class or
+ * interface is intended solely for use as a member class or interface in
+ * complex annotation interface declarations.  It cannot be used to annotate
+ * anything directly:
  * <pre>
  *    &#064;Target({})
  *    public &#064;interface MemberInterface {

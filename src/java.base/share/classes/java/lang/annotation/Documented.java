@@ -40,10 +40,10 @@ package java.lang.annotation;
  * <i>B</i> annotations are <em>not</em> part of the public contract
  * of the elements <i>B</i> annotates.
  *
- * Concretely, if an annotation interface is annotated with {@code
- * Documented}, by default a tool like javadoc will display
- * annotations of that interface in its output while annotations of
- * annotation interfaces without {@code Documented} will not be displayed.
+ * Concretely, if an annotation interface is annotated with {@code Documented},
+ * by default a tool like javadoc will display annotations of that interface
+ * in its output while annotations of annotation interfaces without
+ * {@code Documented} will not be displayed.
  *
  * @author  Joshua Bloch
  * @since 1.5

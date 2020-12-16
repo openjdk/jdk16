@@ -31,8 +31,8 @@ package java.lang.annotation;
  * declaration, and the user queries the annotation interface on a class
  * declaration, and the class declaration has no annotation for this interface,
  * then the class's superclass will automatically be queried for the
- * annotation interface.  This process will be repeated until an annotation for this
- * interface is found, or the top of the class hierarchy (Object)
+ * annotation interface.  This process will be repeated until an annotation for
+ * this interface is found, or the top of the class hierarchy (Object)
  * is reached.  If no superclass has an annotation for this interface, then
  * the query will indicate that the class in question has no such annotation.
  *

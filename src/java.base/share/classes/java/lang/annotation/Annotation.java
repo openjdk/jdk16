@@ -31,8 +31,8 @@ package java.lang.annotation;
  * an annotation interface.  Also note that this interface does not itself
  * define an annotation interface.
  *
- * More information about annotation interfaces can be found in section {@jls 9.6} of
- * <cite>The Java Language Specification</cite>.
+ * More information about annotation interfaces can be found in section
+ * {@jls 9.6} of <cite>The Java Language Specification</cite>.
  *
  * The {@link java.lang.reflect.AnnotatedElement} interface discusses
  * compatibility concerns when evolving an annotation interface from being
