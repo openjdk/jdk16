@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003, 2019, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2020, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -29,7 +29,7 @@ package java.lang.reflect;
 /**
  * Thrown when a syntactically malformed signature attribute is
  * encountered by a reflective method that needs to interpret the
- * generic signature information for a type, method or constructor.
+ * generic signature information for a class or interface, method or constructor.
  *
  * @since 1.5
  */

@@ -240,8 +240,8 @@ import static java.lang.module.ModuleDescriptor.Modifier.SYNTHETIC;
  *
  * <p>
  * A dynamic module can read the modules of all of the superinterfaces of a proxy
- * class and the modules of the types referenced by all public method signatures
- * of a proxy class.  If a superinterface or a referenced type, say {@code T},
+ * class and the modules of the classes and interfaces referenced by all public method signatures
+ * of a proxy class.  If a superinterface or a referenced class or interface, say {@code T},
  * is in a non-exported package, the {@linkplain Module module} of {@code T} is
  * updated to export the package of {@code T} to the dynamic module.
  *
