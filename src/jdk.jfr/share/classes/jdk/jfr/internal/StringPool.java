@@ -65,7 +65,9 @@ public final class StringPool {
 
         private void reset() {
             this.cache.clear();
-            this.currentSizeUTF16 = 0;
+            synchronized(SimpleStringIdPool.class) {
+                this.currentSizeUTF16 = 0;
+            }
         }
 
         private long addString(String s) {
