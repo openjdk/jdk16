@@ -197,7 +197,7 @@ public class DeprecatedListWriter extends SubWriterHolderWriter {
             case ANNOTATION_TYPE:
                 return "doclet.AnnotationType";
             case RECORD_CLASS:
-                return "doclet.Record";
+                return "doclet.RecordClass";
             case FIELD:
                 return "doclet.Field";
             case METHOD:

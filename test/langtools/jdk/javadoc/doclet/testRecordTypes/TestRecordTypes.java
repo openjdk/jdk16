@@ -522,7 +522,7 @@ public class TestRecordTypes extends JavadocTester {
                     <div id="record.class">
                     <div class="caption"><span>Record Classes</span></div>
                     <div class="summary-table two-column-summary">
-                    <div class="table-header col-first">Record</div>
+                    <div class="table-header col-first">Record Class</div>
                     <div class="table-header col-last">Description</div>
                     <div class="col-deprecated-item-name even-row-color"><a href="p/R.html" title="class in p">p.R</a></div>
                     <div class="col-last even-row-color">
