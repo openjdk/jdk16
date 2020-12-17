@@ -3630,6 +3630,7 @@ void LIRGenerator::do_RangeCheckPredicate(RangeCheckPredicate *x) {
 }
 
 void LIRGenerator::do_blackhole(Intrinsic *x) {
+  assert(!x->has_receiver(), "Should have been checked before: only static methods here");
   for (int c = 0; c < x->number_of_arguments(); c++) {
     // Load the argument
     LIRItem vitem(x->argument_at(c), this);

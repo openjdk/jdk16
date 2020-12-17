@@ -6858,7 +6858,7 @@ bool LibraryCallKit::inline_getObjectSize() {
 // This matches methods that were requested to be blackholed through compile commands.
 //
 bool LibraryCallKit::inline_blackhole() {
-  assert(callee()->is_static(), "Should have been checked before");
+  assert(callee()->is_static(), "Should have been checked before: only static methods here");
 
   // Bind call arguments as blackhole arguments to keep them alive
   Node* bh = insert_mem_bar(Op_Blackhole);
