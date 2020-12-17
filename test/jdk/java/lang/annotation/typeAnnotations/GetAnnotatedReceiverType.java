@@ -106,6 +106,7 @@ public class GetAnnotatedReceiverType {
 
     private static int failures = 0;
     private static int tests = 0;
+    private static final int EXPECTED_TEST_CASES = 25;
 
     public static void main(String[] args) throws NoSuchMethodException {
         checkEmptyAT(GetAnnotatedReceiverType.class.getMethod("method"),
@@ -178,7 +179,7 @@ public class GetAnnotatedReceiverType {
 
         if (failures != 0)
             throw new RuntimeException("Test failed, see log for details");
-        else if (tests != 25)
+        else if (tests != EXPECTED_TEST_CASES)
             throw new RuntimeException("Not all cases ran, failing");
     }
 
