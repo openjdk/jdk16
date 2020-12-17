@@ -28,8 +28,8 @@ package java.lang.reflect;
 
 /**
  * Thrown when a syntactically malformed signature attribute is
- * encountered by a reflective method that needs to interpret the
- * generic signature information for a class or interface, method or constructor.
+ * encountered by a reflective method that needs to interpret the generic
+ * signature information for a class or interface, method or constructor.
  *
  * @since 1.5
  */

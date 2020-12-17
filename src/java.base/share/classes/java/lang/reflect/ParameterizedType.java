@@ -32,8 +32,8 @@ package java.lang.reflect;
  *
  * <p>A parameterized type is created the first time it is needed by a
  * reflective method, as specified in this package. When a
- * parameterized type p is created, the generic class or interface declaration that
- * p instantiates is resolved, and all type arguments of p are created
+ * parameterized type p is created, the generic class or interface declaration
+ * that p instantiates is resolved, and all type arguments of p are created
  * recursively. See {@link java.lang.reflect.TypeVariable
  * TypeVariable} for details on the creation process for type
  * variables. Repeated creation of a parameterized type has no effect.
@@ -56,8 +56,8 @@ public interface ParameterizedType extends Type {
      *
      * @return an array of {@code Type} objects representing the actual type
      *     arguments to this type
-     * @throws TypeNotPresentException if any of the
-     *     actual type arguments refers to a non-existent class or interface declaration
+     * @throws TypeNotPresentException if any of the actual type arguments
+     *     refers to a non-existent class or interface declaration
      * @throws MalformedParameterizedTypeException if any of the
      *     actual type parameters refer to a parameterized type that cannot
      *     be instantiated for any reason

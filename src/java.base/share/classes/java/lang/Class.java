@@ -1298,8 +1298,8 @@ public final class Class<T> implements java.io.Serializable,
      * {@code null} otherwise.
      *
      * In particular, this method returns {@code null} if the underlying
-     * class is a local or anonymous class immediately enclosed by a class or interface
-     * declaration, instance initializer or static initializer.
+     * class is a local or anonymous class immediately enclosed by a class or
+     * interface declaration, instance initializer or static initializer.
      *
      * @return the immediately enclosing method of the underlying class, if
      *     that class is a local or anonymous class; otherwise {@code null}.
@@ -1456,8 +1456,8 @@ public final class Class<T> implements java.io.Serializable,
      * the immediately enclosing constructor of the underlying
      * class. Returns {@code null} otherwise.  In particular, this
      * method returns {@code null} if the underlying class is a local
-     * or anonymous class immediately enclosed by a class or interface declaration,
-     * instance initializer or static initializer.
+     * or anonymous class immediately enclosed by a class or
+     * interface declaration, instance initializer or static initializer.
      *
      * @return the immediately enclosing constructor of the underlying class, if
      *     that class is a local or anonymous class; otherwise {@code null}.
@@ -2392,14 +2392,14 @@ public final class Class<T> implements java.io.Serializable,
      * Class} object, including public, protected, default (package)
      * access, and private methods, but excluding inherited methods.
      *
-     * <p> If this {@code Class} object represents a class or interface that has multiple
-     * declared methods with the same name and parameter types, but different
-     * return types, then the returned array has a {@code Method} object for
-     * each such method.
+     * <p> If this {@code Class} object represents a class or interface that
+     * has multiple declared methods with the same name and parameter types,
+     * but different return types, then the returned array has a {@code Method}
+     * object for each such method.
      *
-     * <p> If this {@code Class} object represents a class or interface that has a class
-     * initialization method {@code <clinit>}, then the returned array does
-     * <em>not</em> have a corresponding {@code Method} object.
+     * <p> If this {@code Class} object represents a class or interface that
+     * has a class initialization method {@code <clinit>}, then the returned
+     * array does <em>not</em> have a corresponding {@code Method} object.
      *
      * <p> If this {@code Class} object represents a class or interface with no
      * declared methods, then the returned array has length 0.
@@ -3702,8 +3702,8 @@ public final class Class<T> implements java.io.Serializable,
      * components; {@link #getRecordComponents()} returns a non-null but
      * possibly empty value for a record.
      *
-     * <p> Note that class {@link Record} is not a record class and thus invoking
-     * this method on class {@code Record} returns {@code false}.
+     * <p> Note that class {@link Record} is not a record class and thus
+     * invoking this method on class {@code Record} returns {@code false}.
      *
      * @return true if and only if this class is a record class, otherwise false
      * @jls 8.10 Record Classes

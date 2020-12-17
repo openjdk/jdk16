@@ -49,8 +49,8 @@ public interface AnnotatedParameterizedType extends AnnotatedType {
      * {@code @TA O<T>.I<S>}, return a representation of {@code @TA O<T>}.
      *
      * <p>Returns {@code null} if this {@code AnnotatedType} represents a
-     *     top-level class or interface, or a local or anonymous class, or a primitive type, or
-     *     void.
+     *     top-level class or interface, or a local or anonymous class, or
+     *     a primitive type, or void.
      *
      * @return an {@code AnnotatedType} object representing the potentially
      *     annotated type that this type is a member of, or {@code null}
