@@ -112,11 +112,7 @@ public class BlackholeStaticTest {
 
     public static void runTries(Runnable r) {
         for (int t = 0; t < TRIES; t++) {
-            BlackholeTarget.clear();
             r.run();
-            if (t == TRIES - 1) {
-               BlackholeTarget.shouldNotBeEntered();
-            }
         }
     }
 

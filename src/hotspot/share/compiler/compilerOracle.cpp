@@ -424,6 +424,16 @@ bool CompilerOracle::should_blackhole(const methodHandle& method) {
             method->name_and_sig_as_C_string());
     return false;
   }
+  if (!method->is_empty_method()) {
+    warning("Blackhole compile option only works for empty methods: %s",
+            method->name_and_sig_as_C_string());
+    return false;
+  }
+  if (!method->is_static()) {
+    warning("Blackhole compile option only works for static methods: %s",
+            method->name_and_sig_as_C_string());
+    return false;
+  }
   return true;
 }
 

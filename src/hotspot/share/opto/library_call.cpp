@@ -6858,24 +6858,12 @@ bool LibraryCallKit::inline_getObjectSize() {
 // This matches methods that were requested to be blackholed through compile commands.
 //
 bool LibraryCallKit::inline_blackhole() {
-  // To preserve the semantics of Java call, we need to null-check the receiver,
-  // if present. Shortcut if receiver is unconditionally null.
-  Node* receiver = NULL;
-  bool has_receiver = !callee()->is_static();
-  if (has_receiver) {
-    receiver = null_check_receiver();
-    if (stopped()) {
-      return true;
-    }
-  }
+  assert(callee()->is_static(), "Should have been checked before");
 
   // Bind call arguments as blackhole arguments to keep them alive
   Node* bh = insert_mem_bar(Op_Blackhole);
-  if (has_receiver) {
-    bh->add_req(receiver);
-  }
   uint nargs = callee()->arg_size();
-  for (uint i = has_receiver ? 1 : 0; i < nargs; i++) {
+  for (uint i = 0; i < nargs; i++) {
     bh->add_req(argument(i));
   }
 
