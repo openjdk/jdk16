@@ -37,7 +37,7 @@ var RANKING_THRESHOLD = 2;
 var NO_MATCH = 0xffff;
 var MIN_RESULTS = 3;
 var MAX_RESULTS = 500;
-var UNNAMED = "##REPLACE:doclet.search.unnamed##";
+var UNNAMED = "<Unnamed>>";
 function escapeHtml(str) {
     return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
