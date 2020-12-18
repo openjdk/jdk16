@@ -45,7 +45,7 @@ public class ForceGC {
         try {
             for (int i = 0; i < 10; i++) {
                 System.gc();
-                System.out.format("doit %d: gc %d%n", iter, i);
+                System.out.println("doit() iter: " + iter + ", gc " + i);
                 if (cleanerInvoked.await(1L, TimeUnit.SECONDS)) {
                     return;
                 }
