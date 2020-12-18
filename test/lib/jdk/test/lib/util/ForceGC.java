@@ -70,6 +70,9 @@ public class ForceGC {
         for (int i = 0; i < 10; i++) {
             if (s.getAsBoolean()) return true;
             doit(i);
+            try { Thread.sleep(1000); } catch (InterruptedException e) {
+                throw new AssertionError("unexpected interrupted sleep", e);
+            }
         }
         return false;
     }
