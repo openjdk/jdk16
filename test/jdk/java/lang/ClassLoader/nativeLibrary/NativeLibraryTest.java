@@ -66,13 +66,11 @@ public class NativeLibraryTest {
             // Unload the class loader and native library, and give the Cleaner
             // thread a chance to unload the native library.
             // unloadedCount is incremented when the native library is unloaded.
-            while (count != unloadedCount) {
-                ForceGC gc = new ForceGC();
-                final int finalCount = count;
-                if (!gc.await(() -> finalCount == unloadedCount)) {
-                    System.err.print("Expected unloaded=" + count +
-                        " but got=" + unloadedCount + ", try again...");
-                }
+            ForceGC gc = new ForceGC();
+            final int finalCount = count;
+            if (!gc.await(() -> finalCount == unloadedCount)) {
+                throw new RuntimeException("Expected unloaded=" + count +
+                    " but got=" + unloadedCount);
             }
         }
     }
