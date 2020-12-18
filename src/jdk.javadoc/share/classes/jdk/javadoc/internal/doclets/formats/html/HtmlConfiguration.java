@@ -183,7 +183,6 @@ public class HtmlConfiguration extends BaseConfiguration {
         }
 
         messages = new Messages(this, msgResources);
-        //contents = new Contents(this);
         options = new HtmlOptions(this);
 
         Runtime.Version v;

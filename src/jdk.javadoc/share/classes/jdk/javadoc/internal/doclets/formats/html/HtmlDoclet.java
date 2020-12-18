@@ -152,6 +152,7 @@ public class HtmlDoclet extends AbstractDoclet {
                 { "doclet.enum_values_doc.return", "doclet.enum_class_values_doc.return" },
                 { "doclet.enum_valueof_doc.fullbody", "doclet.enum_class_valueof_doc.fullbody" },
                 { "doclet.enum_valueof_doc.throws_ila", "doclet.enum_class_valueof_doc.throws_ila" },
+                { "doclet.search.types", "doclet.search.classes_and_interfaces"}
         };
         for (String[] pair : pairs) {
             if (sv.compareTo(SourceVersion.RELEASE_16) >= 0) {

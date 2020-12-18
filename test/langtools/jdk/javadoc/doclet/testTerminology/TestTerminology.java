@@ -141,21 +141,14 @@ public class TestTerminology extends JavadocTester {
                 "p");
         checkExit(Exit.OK);
 
-// awaits JDK-8247994: localize JavaScript search
-//        checkOutput("search.js", sv.compareTo(SourceVersion.RELEASE_16) < 0,
-//                """
-//                        var catTypes = "Types";""" //
-//        );
-//        checkOutput("search.js", sv.compareTo(SourceVersion.RELEASE_16) >= 0,
-//                """
-//                        var catTypes = "Classes and Interfaces";"""
-//        );
-// awaits JDK-8247994: localize JavaScript search
-        checkOutput("search.js", true,
+        checkOutput("search.js", sv.compareTo(SourceVersion.RELEASE_16) < 0,
+                """
+                        var catTypes = "Types";""" //
+        );
+        checkOutput("search.js", sv.compareTo(SourceVersion.RELEASE_16) >= 0,
                 """
                         var catTypes = "Classes and Interfaces";"""
         );
-
     }
 
     private String asOption(SourceVersion sv) {
