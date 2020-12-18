@@ -310,8 +310,8 @@ public class TestOverrideMethods  extends JavadocTester {
                     the order they are declared."""
         );
 
-        // Check methods with covariant return types, changes in visibility or thrown exceptions.
-        // Only those should be shown in summary; m1 and m3 should listed as declared in Base
+        // Check methods with covariant return types, changes in modifiers or thrown exceptions.
+        // Only those should be shown in summary; m1, m3, m9 should listed as declared in Base
         checkOutput("pkg6/Sub.html", true,
                 """
                     <div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
