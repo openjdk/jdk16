@@ -65,7 +65,8 @@ public class ForceGC {
      * @throws InterruptedException if the current thread is interrupted while waiting
      */
     public boolean await(BooleanSupplier s) {
-        o = null;
+        o = null; // Keep reference to Object until now, to ensure the Cleaner
+                  // doesn't count down the latch before await() is called.
         for (int i = 0; i < 10; i++) {
             if (s.getAsBoolean()) return true;
             doit(i);
