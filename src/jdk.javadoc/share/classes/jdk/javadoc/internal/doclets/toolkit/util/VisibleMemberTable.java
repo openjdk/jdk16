@@ -614,9 +614,12 @@ public class VisibleMemberTable {
                 && utils.typeUtils.isSubtype(methodReturn, overriddenMethodReturn)) {
             return true;
         }
-        // Method visibility changed from protected to public
-        if (method.getModifiers().contains(Modifier.PUBLIC) &&
-                overriddenMethod.getModifiers().contains(Modifier.PROTECTED)) {
+        // Modifiers changed from protected to public, non-final to final, or change in abstractness
+        Set<Modifier> modifiers = method.getModifiers();
+        Set<Modifier> overriddenModifiers = overriddenMethod.getModifiers();
+        if ((modifiers.contains(Modifier.PUBLIC) && overriddenModifiers.contains(Modifier.PROTECTED))
+                || modifiers.contains(Modifier.FINAL)
+                || modifiers.contains(Modifier.ABSTRACT) != overriddenModifiers.contains(Modifier.ABSTRACT)) {
             return true;
         }
         // Change in thrown types

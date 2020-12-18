@@ -336,13 +336,27 @@ public class TestOverrideMethods  extends JavadocTester {
                     <div class="col-last even-row-color method-summary-table-tab2 method-summary-table-tab4 method-summary-table">
                     <div class="block">This is Base::m5.</div>
                     </div>
+                    <div class="col-first odd-row-color method-summary-table-tab2 method-summary-table-tab4 method-summary-table"><code>java.lang.Object</code></div>
+                    <div class="col-second odd-row-color method-summary-table-tab2 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#m6()">m6</a></span>()</code></div>
+                    <div class="col-last odd-row-color method-summary-table-tab2 method-summary-table-tab4 method-summary-table">
+                    <div class="block">This is Base::m6.</div>
+                    </div>
+                    <div class="col-first even-row-color method-summary-table-tab2 method-summary-table-tab4 method-summary-table"><code>java.lang.Object</code></div>
+                    <div class="col-second even-row-color method-summary-table-tab2 method-summary-table-tab4 method-summary-table"><code><span class="member-name-link"><a href="#m7()">m7</a></span>()</code></div>
+                    <div class="col-last even-row-color method-summary-table-tab2 method-summary-table-tab4 method-summary-table">
+                    <div class="block">This is Base::m7.</div>
+                    </div>
+                    <div class="col-first odd-row-color method-summary-table-tab2 method-summary-table method-summary-table-tab3"><code>abstract java.lang.Object</code></div>
+                    <div class="col-second odd-row-color method-summary-table-tab2 method-summary-table method-summary-table-tab3"><code><span class="member-name-link"><a href="#m8()">m8</a></span>()</code></div>
+                    <div class="col-last odd-row-color method-summary-table-tab2 method-summary-table method-summary-table-tab3">
+                    <div class="block">This is Base::m8.</div>
                     </div>
                     """,
                 """
                     <div class="inherited-list">
                     <h3 id="methods.inherited.from.class.pkg6.Base">Methods declared in class&nbsp;p\
                     kg6.<a href="Base.html" title="class in pkg6">Base</a></h3>
-                    <code><a href="Base.html#m1()">m1</a>, <a href="Base.html#m3()">m3</a></code></div>
+                    <code><a href="Base.html#m1()">m1</a>, <a href="Base.html#m3()">m3</a>, <a href="Base.html#m9()">m9</a></code></div>
                     """);
     }
 

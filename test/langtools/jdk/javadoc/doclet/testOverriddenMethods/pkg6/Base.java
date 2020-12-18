@@ -29,18 +29,19 @@ public class Base<T> {
     /**
      *  This is Base::m1.
      *  @return something
-     * */
+     */
     public Object m1() { }
+
     /**
      *  This is Base::m2.
      *  @return something
-     * */
+     */
     public Object m2() { }
 
     /**
      *  This is Base::m3.
      *  @return something
-     * */
+     */
     public T m3() { }
 
     /**
@@ -54,4 +55,23 @@ public class Base<T> {
      */
     public Object m5() throws IOException { }
 
+    /**
+     * This is Base::m6.
+     */
+    public Object m6() { }
+
+    /**
+     * This is Base::m7.
+     */
+    public abstract Object m7();
+
+    /**
+     * This is Base::m8.
+     */
+    public Object m8() { }
+
+    /**
+     * This is Base::m9.
+     */
+    public abstract Object m9();
 }

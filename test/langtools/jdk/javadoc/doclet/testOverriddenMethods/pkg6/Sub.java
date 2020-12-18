@@ -39,5 +39,17 @@ public class Sub<T> extends Base<T> {
     // drop checked exception
     @Override
     public Object m5() { }
+    // add final modifier
+    @Override
+    public final Object m6() { }
+    // implement abstract method
+    @Override
+    public Object m7() { }
+    // override concrete method as abstract
+    @Override
+    public abstract Object m8();
+    // override abstract method unchanged
+    @Override
+    public abstract Object m9();
 }
 
