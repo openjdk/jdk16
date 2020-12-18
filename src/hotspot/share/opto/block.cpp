@@ -1226,7 +1226,7 @@ void PhaseCFG::verify() const {
       // of L. This is guaranteed by the freq. estimation model for reducible
       // CFGs, and by special handling in PhaseCFG::schedule_late() otherwise.
       if (n->is_Mach() && n->bottom_type()->has_memory() && n->in(0) != NULL) {
-        Block *original_block = find_block_for_node(n->in(0));
+        Block* original_block = find_block_for_node(n->in(0));
         assert(original_block != NULL, "missing block for memory-writing node");
         CFGLoop* original_or_ancestor = original_block->_loop;
         assert(block->_loop != NULL && original_or_ancestor != NULL, "no loop");
