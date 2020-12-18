@@ -68,7 +68,7 @@ public class NativeLibraryTest {
             // unloadedCount is incremented when the native library is unloaded.
             while (count != unloadedCount) {
                 ForceGC gc = new ForceGC();
-                final int finalCount = count;            
+                final int finalCount = count;
                 if (!gc.await(() -> finalCount == unloadedCount)) {
                     System.err.print("Expected unloaded=" + count +
                         " but got=" + unloadedCount + ", try again...");
