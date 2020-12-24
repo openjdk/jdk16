@@ -870,7 +870,7 @@ public class AquaLookAndFeel extends BasicLookAndFeel {
             "TabbedPane.tabsOverlapBorder", Boolean.TRUE,
             "TabbedPane.selectedTabTitlePressedColor", selectedTabTitlePressedColor,
             "TabbedPane.selectedTabTitleDisabledColor", selectedTabTitleDisabledColor,
-            "TabbedPane.selectedTabTitleNormalColor", System.getProperty("os.version").contains("10.16") ? selectedControlTextColor : selectedTabTitleNormalColor,
+            "TabbedPane.selectedTabTitleNormalColor", JRSUIUtils.isMacOSXBigSurOrAbove() ? selectedControlTextColor : selectedTabTitleNormalColor,
             "TabbedPane.selectedTabTitleShadowDisabledColor", selectedTabTitleShadowDisabledColor,
             "TabbedPane.selectedTabTitleShadowNormalColor", selectedTabTitleShadowNormalColor,
             "TabbedPane.nonSelectedTabTitleNormalColor", nonSelectedTabTitleNormalColor,
