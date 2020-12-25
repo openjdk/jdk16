@@ -36,6 +36,11 @@ public final class JRSUIUtils {
 
     static boolean isLeopard = isMacOSXLeopard();
     static boolean isSnowLeopardOrBelow = isMacOSXSnowLeopardOrBelow();
+    static boolean isBigSurOrAbove = isMacOSXBigSurOrAbove();
+
+    public static boolean isMacOSXBigSurOrAbove() {
+        return currentMacOSXVersionMatchesGivenVersionRange(16, true, false, true);
+    }
 
     static boolean isMacOSXLeopard() {
         return isCurrentMacOSXVersion(5);
