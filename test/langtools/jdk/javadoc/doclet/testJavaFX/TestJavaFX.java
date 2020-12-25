@@ -380,10 +380,10 @@ public class TestJavaFX extends JavadocTester {
         Files.writeString(src5.resolve("MyClass.java"),
                 """
                     package pkg;
-                       
-                    // The following import not required with --disable-javafx-strict-checks                  
+
+                    // The following import not required with --disable-javafx-strict-checks
                     // import javafx.beans.property.*;
-                                        
+
                     /**
                      * This is my class.
                      */
@@ -392,19 +392,19 @@ public class TestJavaFX extends JavadocTester {
                          * This is my property that enables something
                          */
                          private BooleanProperty something = new SimpleBooleanProperty(false);
-                                        
+
                          public final boolean isSomething() {
                             return something.get();
                          }
-                                        
+
                          public final void setSomething(boolean val) {
                             something.set(val);
                          }
-                                        
+
                          public final BooleanProperty somethingProperty() {
                             return something;
                          }
-                         
+
                          /** Dummy declaration. */
                          public class BooleanProperty { }
                     }
