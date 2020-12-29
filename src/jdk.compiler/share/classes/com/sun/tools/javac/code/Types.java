@@ -1667,7 +1667,7 @@ public class Types {
     }
     // where
         private boolean areDisjoint(ClassSymbol ts, ClassSymbol ss) {
-            if (isSubtype(ts.type, ss.type)) {
+            if (isSubtype(erasure(ts.type), erasure(ss.type))) {
                 return false;
             }
             // if both are classes or both are interfaces, shortcut
