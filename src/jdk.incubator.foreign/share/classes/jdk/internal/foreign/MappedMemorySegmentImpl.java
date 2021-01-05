@@ -57,29 +57,6 @@ public class MappedMemorySegmentImpl extends NativeMemorySegmentImpl {
         this.unmapper = unmapper;
     }
 
-    static final MappedMemorySegmentImpl EMPTY_MAPPING = new MappedMemorySegmentImpl(0, null, 0, MemorySegment.ALL_ACCESS,
-            MemoryScope.createConfined(null, MemoryScope.DUMMY_CLEANUP_ACTION, null)) {
-        @Override
-        public void load() {
-            // do nothing
-        }
-
-        @Override
-        public void unload() {
-            // do nothing
-        }
-
-        @Override
-        public boolean isLoaded() {
-            return true;
-        }
-
-        @Override
-        public void force() {
-            // do nothing
-        }
-    };
-
     @Override
     ByteBuffer makeByteBuffer() {
         return nioAccess.newMappedByteBuffer(unmapper, min, (int)length, null, this);
@@ -148,7 +125,7 @@ public class MappedMemorySegmentImpl extends NativeMemorySegmentImpl {
                 return new MappedMemorySegmentImpl(unmapperProxy.address(), unmapperProxy, bytesSize,
                         modes, scope);
             } else {
-                return EMPTY_MAPPING;
+                return new EmptyMappedMemorySegmentImpl();
             }
         }
     }
@@ -162,4 +139,32 @@ public class MappedMemorySegmentImpl extends NativeMemorySegmentImpl {
             throw new UnsupportedOperationException("Unsupported map mode: " + mapMode);
         }
     }
+
+    static class EmptyMappedMemorySegmentImpl extends MappedMemorySegmentImpl {
+
+        public EmptyMappedMemorySegmentImpl() {
+            super(0, null, 0, MemorySegment.ALL_ACCESS,
+                    MemoryScope.createConfined(null, MemoryScope.DUMMY_CLEANUP_ACTION, null));
+        }
+
+        @Override
+        public void load() {
+            // do nothing
+        }
+
+        @Override
+        public void unload() {
+            // do nothing
+        }
+
+        @Override
+        public boolean isLoaded() {
+            return true;
+        }
+
+        @Override
+        public void force() {
+            // do nothing
+        }
+    };
 }
