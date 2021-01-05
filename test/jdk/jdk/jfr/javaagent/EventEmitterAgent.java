@@ -38,9 +38,7 @@ import jdk.test.lib.jfr.EventNames;
 // Java agent that emits in multiple threads
 public class EventEmitterAgent {
 
-    private static final int THREADS = 5;
-    private static final int EVENTS_PER_THREAD = 150_000;
-    private static final int EXPECTED_COUNT = THREADS * EVENTS_PER_THREAD;
+    private static final long EVENTS = 150_000;
     private static final Path DUMP_PATH = Paths.get("dump.jfr").toAbsolutePath();
 
     // Called when agent is loaded from command line
@@ -58,20 +56,13 @@ public class EventEmitterAgent {
             r.enable(EventNames.JavaExceptionThrow);
             r.setDestination(DUMP_PATH);
             r.start();
-            Thread[] threads = new Thread[THREADS];
-            for (int i = 0; i < THREADS; i++) {
-                threads[i] = new Thread(EventEmitterAgent::emitEvents);
-                threads[i].start();
-            }
-            for (int i = 0; i < THREADS; i++) {
-                threads[i].join();
-            }
+            emitEvents();
             r.stop();
         }
     }
 
     public static void emitEvents() {
-        for (int i = 0; i < EVENTS_PER_THREAD; i++) {
+        for (int i = 0; i < EVENTS; i++) {
             TestEvent e = new TestEvent();
             e.msg = "Long message that puts pressure on the string pool " + i % 100;
             e.count = i;
@@ -80,7 +71,7 @@ public class EventEmitterAgent {
             e.commit();
             if (i % 10000 == 0) {
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(10);
                 } catch (InterruptedException ie) {
                     // ignore
                 }
@@ -101,6 +92,6 @@ public class EventEmitterAgent {
                 .stream()
                 .filter(e -> e.getEventType().getName().equals("Test"))
                 .count();
-        Asserts.assertTrue(testEventCount == EXPECTED_COUNT, "Mismatch in TestEvent count");
+        Asserts.assertEquals(testEventCount, EVENTS, "Mismatch in TestEvent count");
     }
 }
