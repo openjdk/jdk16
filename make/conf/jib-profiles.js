@@ -723,13 +723,11 @@ var getJibProfilesProfiles = function (input, common, data) {
             configure_args: concat(
                 "--enable-full-docs",
                 versionArgs(input, common),
-                "--with-build-jdk=" + input.get(buildJdkDep, "home_path")
-                    + (input.build_os == "macosx" ? "/Contents/Home" : ""),
+                "--with-build-jdk=" + input.get(buildJdkDep, "home_path"),
                 // Provide an explicit JDK for the docs-reference target to
                 // mimic the running conditions of when it's run for real as
                 // closely as possible.
                 "--with-docs-reference-jdk=" + input.get(buildJdkDep, "home_path")
-                    + (input.build_os == "macosx" ? "/Contents/Home" : "")
             ),
             default_make_targets: ["all-docs-bundles"],
             artifacts: {
