@@ -116,16 +116,16 @@ public class MappedMemorySegmentImpl extends NativeMemorySegmentImpl {
         if (bytesOffset < 0) throw new IllegalArgumentException("Requested bytes offset must be >= 0.");
         try (FileChannelImpl channelImpl = (FileChannelImpl)FileChannel.open(path, openOptions(mapMode))) {
             UnmapperProxy unmapperProxy = channelImpl.mapInternal(mapMode, bytesOffset, bytesSize);
+            int modes = defaultAccessModes(bytesSize);
+            if (mapMode == FileChannel.MapMode.READ_ONLY) {
+                modes &= ~WRITE;
+            }
             if (unmapperProxy != null) {
                 MemoryScope scope = MemoryScope.createConfined(null, unmapperProxy::unmap, null);
-                int modes = defaultAccessModes(bytesSize);
-                if (mapMode == FileChannel.MapMode.READ_ONLY) {
-                    modes &= ~WRITE;
-                }
                 return new MappedMemorySegmentImpl(unmapperProxy.address(), unmapperProxy, bytesSize,
                         modes, scope);
             } else {
-                return new EmptyMappedMemorySegmentImpl();
+                return new EmptyMappedMemorySegmentImpl(modes);
             }
         }
     }
@@ -142,8 +142,8 @@ public class MappedMemorySegmentImpl extends NativeMemorySegmentImpl {
 
     static class EmptyMappedMemorySegmentImpl extends MappedMemorySegmentImpl {
 
-        public EmptyMappedMemorySegmentImpl() {
-            super(0, null, 0, MemorySegment.ALL_ACCESS,
+        public EmptyMappedMemorySegmentImpl(int modes) {
+            super(0, null, 0, modes,
                     MemoryScope.createConfined(null, MemoryScope.DUMMY_CLEANUP_ACTION, null));
         }
 
