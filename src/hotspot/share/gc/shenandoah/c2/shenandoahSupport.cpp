@@ -2462,7 +2462,7 @@ Node* MemoryGraphFixer::find_mem(Node* ctrl, Node* n) const {
   assert(!ctrl->is_Call() || ctrl == n, "projection expected");
 #ifdef ASSERT
   if ((ctrl->is_Proj() && ctrl->in(0)->is_Call()) ||
-          (ctrl->is_Catch() && ctrl->in(0)->in(0)->is_Call())){
+      (ctrl->is_Catch() && ctrl->in(0)->in(0)->is_Call())) {
     CallNode* call = ctrl->is_Proj() ? ctrl->in(0)->as_Call() : ctrl->in(0)->in(0)->as_Call();
     int mems = 0;
     for (DUIterator_Fast imax, i = call->fast_outs(imax); i < imax; i++) {

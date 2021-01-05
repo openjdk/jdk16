@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, Red Hat, Inc. All rights reserved.
+ * Copyright (c) 2021, Red Hat, Inc. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -23,8 +23,12 @@
 
 /**
  * @test
+ * @bug 8258393
+ * @summary Shenandoah: "graph should be schedulable" assert failure
+ * @requires vm.flavor == "server"
+ * @requires vm.gc.Shenandoah
  *
- * @run main/othervm -XX:+UseShenandoahGC TestBadRawMemoryAfterCall
+ * @run main/othervm -XX:+UseShenandoahGC -XX:-BackgroundCompilation TestBadRawMemoryAfterCall
  *
  */
 
