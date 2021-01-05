@@ -144,6 +144,7 @@ JDKVER_SETUP_JDK_VERSION_NUMBERS
 
 BOOTJDK_SETUP_BOOT_JDK
 BOOTJDK_SETUP_BUILD_JDK
+BOOTJDK_SETUP_DOCS_REFERENCE_JDK
 
 ###############################################################################
 #
