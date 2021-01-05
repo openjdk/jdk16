@@ -2326,7 +2326,7 @@ public class LambdaToMethod extends TreeTranslator {
             }
 
             Type bridgedRefSig() {
-                return types.erasure(types.findDescriptorType(tree.target));
+                return types.erasure(types.findDescriptorSymbol(tree.target.tsym).type);
             }
         }
     }
