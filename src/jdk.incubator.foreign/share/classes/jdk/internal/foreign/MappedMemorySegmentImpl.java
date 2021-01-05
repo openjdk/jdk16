@@ -57,6 +57,29 @@ public class MappedMemorySegmentImpl extends NativeMemorySegmentImpl {
         this.unmapper = unmapper;
     }
 
+    static final MappedMemorySegmentImpl EMPTY_MAPPING = new MappedMemorySegmentImpl(0, null, 0, MemorySegment.ALL_ACCESS,
+            MemoryScope.createConfined(null, MemoryScope.DUMMY_CLEANUP_ACTION, null)) {
+        @Override
+        public void load() {
+            // do nothing
+        }
+
+        @Override
+        public void unload() {
+            // do nothing
+        }
+
+        @Override
+        public boolean isLoaded() {
+            return true;
+        }
+
+        @Override
+        public void force() {
+            // do nothing
+        }
+    };
+
     @Override
     ByteBuffer makeByteBuffer() {
         return nioAccess.newMappedByteBuffer(unmapper, min, (int)length, null, this);
@@ -116,13 +139,17 @@ public class MappedMemorySegmentImpl extends NativeMemorySegmentImpl {
         if (bytesOffset < 0) throw new IllegalArgumentException("Requested bytes offset must be >= 0.");
         try (FileChannelImpl channelImpl = (FileChannelImpl)FileChannel.open(path, openOptions(mapMode))) {
             UnmapperProxy unmapperProxy = channelImpl.mapInternal(mapMode, bytesOffset, bytesSize);
-            MemoryScope scope = MemoryScope.createConfined(null, unmapperProxy::unmap, null);
-            int modes = defaultAccessModes(bytesSize);
-            if (mapMode == FileChannel.MapMode.READ_ONLY) {
-                modes &= ~WRITE;
+            if (unmapperProxy != null) {
+                MemoryScope scope = MemoryScope.createConfined(null, unmapperProxy::unmap, null);
+                int modes = defaultAccessModes(bytesSize);
+                if (mapMode == FileChannel.MapMode.READ_ONLY) {
+                    modes &= ~WRITE;
+                }
+                return new MappedMemorySegmentImpl(unmapperProxy.address(), unmapperProxy, bytesSize,
+                        modes, scope);
+            } else {
+                return EMPTY_MAPPING;
             }
-            return new MappedMemorySegmentImpl(unmapperProxy.address(), unmapperProxy, bytesSize,
-                    modes, scope);
         }
     }
 
