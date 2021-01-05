@@ -1671,7 +1671,7 @@ public class Types {
                 return false;
             }
             // if both are classes or both are interfaces, shortcut
-            if (ts.isInterface() == ss.isInterface() && isSubtype(ss.type, ts.type)) {
+            if (ts.isInterface() == ss.isInterface() && isSubtype(erasure(ss.type), erasure(ts.type))) {
                 return false;
             }
             if (ts.isInterface() && !ss.isInterface()) {
