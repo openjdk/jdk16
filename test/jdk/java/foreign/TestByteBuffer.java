@@ -25,7 +25,7 @@
  * @test
  * @modules java.base/sun.nio.ch
  *          jdk.incubator.foreign/jdk.internal.foreign
- * @run testng/othervm -Dforeign.restricted=permit TestByteBuffer
+ * @run testng/othervm --illegal-access=permit -Dforeign.restricted=permit TestByteBuffer
  */
 
 
@@ -44,6 +44,7 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -78,6 +79,8 @@ import jdk.internal.foreign.NativeMemorySegmentImpl;
 import org.testng.SkipException;
 import org.testng.annotations.*;
 import sun.nio.ch.DirectBuffer;
+import sun.nio.ch.FileChannelImpl;
+
 import static jdk.incubator.foreign.MemorySegment.*;
 import static org.testng.Assert.*;
 
@@ -133,6 +136,18 @@ public class TestByteBuffer {
 
     static VarHandle indexHandle = tuples.varHandle(int.class, PathElement.sequenceElement(), PathElement.groupElement("index"));
     static VarHandle valueHandle = tuples.varHandle(float.class, PathElement.sequenceElement(), PathElement.groupElement("value"));
+
+    static final long ALLOC_GRANULARITY;
+
+    static {
+        try {
+            Field granularity_field = FileChannelImpl.class.getDeclaredField("allocationGranularity");
+            granularity_field.setAccessible(true);
+            ALLOC_GRANULARITY = (long)granularity_field.get(null);
+        } catch (ReflectiveOperationException ex) {
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
 
     static void initTuples(MemorySegment base, long count) {
         for (long i = 0; i < count ; i++) {
@@ -462,6 +477,21 @@ public class TestByteBuffer {
         f.createNewFile();
         f.deleteOnExit();
         MemorySegment.mapFile(f.toPath(), -1, 1, FileChannel.MapMode.READ_WRITE);
+    }
+
+    @Test
+    public void testMapOffset() throws IOException {
+        File f = new File("testMapOffset.out");
+        f.createNewFile();
+        f.deleteOnExit();
+
+        int SIZE = 1024;
+
+        for (int offset = 0 ; offset < SIZE ; offset++) {
+            try (MemorySegment segmentOffset = MemorySegment.mapFile(f.toPath(), offset, SIZE, FileChannel.MapMode.READ_WRITE)) {
+                assertEquals(segmentOffset.address().toRawLongValue() % ALLOC_GRANULARITY, offset);
+            }
+        }
     }
 
     public void testMapZeroSize() throws IOException {
