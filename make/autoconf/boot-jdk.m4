@@ -614,13 +614,17 @@ AC_DEFUN([BOOTJDK_SETUP_DOCS_REFERENCE_JDK],
   AC_ARG_WITH(docs-reference-jdk, [AS_HELP_STRING([--with-docs-reference-jdk],
       [path to JDK to use for building the reference documentation])])
 
+  AC_MSG_CHECKING([for docs-reference JDK])
   if test "x$with_docs_reference_jdk" != "x"; then
-    DOCS_REFERENCE_JAVADOC="$with_docs_reference_jdk/bin/javadoc"
+    DOCS_REFERENCE_JDK="$with_docs_reference_jdk"
+    AC_MSG_RESULT([$DOCS_REFERENCE_JDK])
+    DOCS_REFERENCE_JAVADOC="$DOCS_REFERENCE_JDK/bin/javadoc"
     if test ! -x "$DOCS_REFERENCE_JAVADOC"; then
-      AC_MSG_ERROR([docs-reference JDK found at $with_docs_reference_jdk did not contain bin/javadoc])
+      AC_MSG_ERROR([docs-reference JDK found at $DOCS_REFERENCE_JDK did not contain bin/javadoc])
     fi
     UTIL_FIXUP_EXECUTABLE(DOCS_REFERENCE_JAVADOC)
   else
+    AC_MSG_RESULT([no, using interim javadoc for the docs-reference targets])
     # By leaving this empty, Docs.gmk will revert to the default interim javadoc
     DOCS_REFERENCE_JAVADOC=
   fi
