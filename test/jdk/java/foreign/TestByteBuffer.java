@@ -78,7 +78,6 @@ import jdk.internal.foreign.NativeMemorySegmentImpl;
 import org.testng.SkipException;
 import org.testng.annotations.*;
 import sun.nio.ch.DirectBuffer;
-
 import static jdk.incubator.foreign.MemorySegment.*;
 import static org.testng.Assert.*;
 
@@ -487,12 +486,30 @@ public class TestByteBuffer {
         }
     }
 
+    @Test
     public void testMapZeroSize() throws IOException {
         File f = new File("testPos1.out");
         f.createNewFile();
         f.deleteOnExit();
+        //RW
         try (MemorySegment segment = MemorySegment.mapFile(f.toPath(), 0L, 0L, FileChannel.MapMode.READ_WRITE)) {
             assertEquals(segment.byteSize(), 0);
+            assertEquals(segment.isMapped(), true);
+            assertTrue((segment.accessModes() & (READ | WRITE)) == (READ | WRITE));
+            MappedMemorySegments.force(segment);
+            MappedMemorySegments.load(segment);
+            MappedMemorySegments.isLoaded(segment);
+            MappedMemorySegments.unload(segment);
+        }
+        //RO
+        try (MemorySegment segment = MemorySegment.mapFile(f.toPath(), 0L, 0L, FileChannel.MapMode.READ_ONLY)) {
+            assertEquals(segment.byteSize(), 0);
+            assertEquals(segment.isMapped(), true);
+            assertTrue((segment.accessModes() & (READ | WRITE)) == READ);
+            MappedMemorySegments.force(segment);
+            MappedMemorySegments.load(segment);
+            MappedMemorySegments.isLoaded(segment);
+            MappedMemorySegments.unload(segment);
         }
     }
 
