@@ -2688,9 +2688,9 @@ public class Utils {
     private final Map<Element, DocCommentInfo> dcTreeCache = new LinkedHashMap<>();
 
     /**
-     * Checks whether an element has an associated doc copmment.
+     * Checks whether an element has an associated doc comment.
      * @param element the element
-     * @return {@code true} if the eleme nt has a comment, and false otherwise
+     * @return {@code true} if the element has a comment, and false otherwise
      */
     public boolean hasDocCommentTree(Element element) {
         DocCommentInfo info = getDocCommentInfo(element);
