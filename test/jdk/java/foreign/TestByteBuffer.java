@@ -25,6 +25,7 @@
  * @test
  * @modules java.base/sun.nio.ch
  *          jdk.incubator.foreign/jdk.internal.foreign
+ *          java.base/jdk.internal.jrtfs
  * @run testng/othervm -Dforeign.restricted=permit TestByteBuffer
  */
 
@@ -47,6 +48,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.net.URI;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -75,6 +77,7 @@ import java.util.stream.Stream;
 import jdk.internal.foreign.HeapMemorySegmentImpl;
 import jdk.internal.foreign.MappedMemorySegmentImpl;
 import jdk.internal.foreign.NativeMemorySegmentImpl;
+import jdk.internal.jrtfs.JrtFileSystemProvider;
 import org.testng.SkipException;
 import org.testng.annotations.*;
 import sun.nio.ch.DirectBuffer;
@@ -489,6 +492,12 @@ public class TestByteBuffer {
             MappedMemorySegments.isLoaded(segment);
             MappedMemorySegments.unload(segment);
         }
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testMapCustomPath() throws IOException {
+        Path path = new JrtFileSystemProvider().getPath(URI.create("JRT:/"));
+        MemorySegment.mapFile(path, 0L, 0L, FileChannel.MapMode.READ_WRITE);
     }
 
     @Test(dataProvider="resizeOps")
