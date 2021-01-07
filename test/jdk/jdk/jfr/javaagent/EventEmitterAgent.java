@@ -35,7 +35,7 @@ import jdk.jfr.consumer.RecordingFile;
 import jdk.test.lib.Asserts;
 import jdk.test.lib.jfr.EventNames;
 
-// Java agent that emits in multiple threads
+// Java agent that emits events
 public class EventEmitterAgent {
 
     private static final long EVENTS = 150_000;
