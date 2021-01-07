@@ -181,7 +181,7 @@ public abstract class JavacTemplateTestBase {
     protected void assertCompileSucceeded(Consumer<Diagnostic<?>> diagConsumer) {
         if (diags.errorsFound())
             fail("Expected successful compilation");
-        diagConsumer.accept(diags.getDiagWithKey(key));
+        diags.getAllDiags().stream().forEach(diagConsumer);
     }
 
     /** Assert that all previous calls to compile() succeeded */
