@@ -785,12 +785,16 @@ public class BasicButtonUI extends ButtonUI{
                 if (newSelectedBtn != null &&
                         (newSelectedBtn != activeBtn)) {
                     ButtonModel btnModel = newSelectedBtn.getModel();
-                    btnModel.setPressed(true);
-                    btnModel.setArmed(true);
+                    if (newSelectedBtn instanceof JRadioButton) {
+                        btnModel.setPressed(true);
+                        btnModel.setArmed(true);
+                    }
                     newSelectedBtn.requestFocusInWindow();
                     newSelectedBtn.setSelected(true);
-                    btnModel.setPressed(false);
-                    btnModel.setArmed(false);
+                    if (newSelectedBtn instanceof JRadioButton) {
+                        btnModel.setPressed(false);
+                        btnModel.setArmed(false);
+                    }
                 }
             }
         }

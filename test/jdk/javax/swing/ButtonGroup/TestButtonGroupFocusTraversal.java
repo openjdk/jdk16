@@ -30,6 +30,7 @@
  * @run main TestButtonGroupFocusTraversal
  */
 
+import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
@@ -43,12 +44,14 @@ import java.awt.FlowLayout;
 import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Robot;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 public class TestButtonGroupFocusTraversal {
     private static JFrame frame;
     private static JTextField textFieldFirst, textFieldLast;
     private static JToggleButton toggleButton1, toggleButton2;
+    private static boolean toggleButtonActionPerformed;
     private static JRadioButton radioButton1, radioButton2;
     private static Robot robot;
 
@@ -75,6 +78,20 @@ public class TestButtonGroupFocusTraversal {
                 toggleButton2 = new JToggleButton("2");
                 radioButton1 = new JRadioButton("1");
                 radioButton2 = new JRadioButton("2");
+
+                toggleButton1.setAction(new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        toggleButtonActionPerformed = true;
+                    }
+                });
+
+                toggleButton2.setAction(new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        toggleButtonActionPerformed = true;
+                    }
+                });
 
                 ButtonGroup toggleGroup = new ButtonGroup();
                 toggleGroup.add(toggleButton1);
@@ -124,6 +141,13 @@ public class TestButtonGroupFocusTraversal {
             System.out.println(component);
             System.out.println(focusedComponent);
             throw new RuntimeException("Wrong Component Selected");
+        }
+    }
+
+    private static void checkToggleButtonActionPerformed() {
+        if (toggleButtonActionPerformed) {
+            throw new RuntimeException("Toggle Button Action should not be" +
+                    "performed");
         }
     }
 
@@ -181,15 +205,19 @@ public class TestButtonGroupFocusTraversal {
 
                 pressKey(KeyEvent.VK_LEFT);
                 checkFocusedComponent(toggleButton1);
+                checkToggleButtonActionPerformed();
 
                 pressKey(KeyEvent.VK_RIGHT);
                 checkFocusedComponent(toggleButton2);
+                checkToggleButtonActionPerformed();
 
                 pressKey(KeyEvent.VK_UP);
                 checkFocusedComponent(toggleButton1);
+                checkToggleButtonActionPerformed();
 
                 pressKey(KeyEvent.VK_DOWN);
                 checkFocusedComponent(toggleButton2);
+                checkToggleButtonActionPerformed();
 
                 pressKey(KeyEvent.VK_TAB);
                 checkFocusedComponent(radioButton2);
@@ -214,4 +242,3 @@ public class TestButtonGroupFocusTraversal {
         }
     }
 }
-
