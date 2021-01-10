@@ -29,7 +29,7 @@
  * @modules
  *      jdk.compiler/com.sun.tools.javac.api
  *      jdk.compiler/com.sun.tools.javac.util
- * @run testng StaticMostSpecific
+ * @run testng BoundUnboundSearchTest
  */
 
 import java.util.function.*;
@@ -46,7 +46,7 @@ import tools.javac.combo.CompilationTestCase;
 import static org.testng.Assert.assertEquals;
 
 @Test
-public class StaticMostSpecific extends CompilationTestCase {
+public class BoundUnboundSearchTest extends CompilationTestCase {
     static final String TEMPLATE =
             """
             import java.util.function.*;
@@ -58,7 +58,7 @@ public class StaticMostSpecific extends CompilationTestCase {
             }
             """;
 
-    public StaticMostSpecific() {
+    public BoundUnboundSearchTest() {
         setDefaultFilename("Test.java");
         setCompileOptions(new String[]{"--debug=dumpMethodReferenceSearchResults"});
     }
