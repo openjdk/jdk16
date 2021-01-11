@@ -474,10 +474,8 @@ void ClassListParser::resolve_indy(Symbol* class_name_symbol, TRAPS) {
       tty->print_cr(" exception pending %s ",
                     PENDING_EXCEPTION->klass()->external_name());
     }
-    Symbol* ex_name = PENDING_EXCEPTION->klass()->name();
     oop exception = THREAD->pending_exception();
-    if (/*ex_name == vmSymbols::java_lang_UnsupportedClassVersionError() ||*/
-        exception->is_a(SystemDictionary::Error_klass())) {
+    if (exception->is_a(SystemDictionary::Error_klass())) {
       CLEAR_PENDING_EXCEPTION;
     } else {
       exit(1);
