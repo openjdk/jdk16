@@ -59,7 +59,7 @@ public class LimitedImage {
                 "1 warning"
         );
 
-        //check proper diagnostics when zip/jar FS not present:
+        //check proper diagnostics when doclint provider not present:
         System.err.println("Test -Xdoclint when doclint not available");
         actualOutput = new JavacTask(tb, Mode.CMDLINE)
                 .options("-XDrawDiagnostics", "-Xdoclint")
