@@ -64,7 +64,7 @@ void PretouchTask::work(uint worker_id) {
 
 void PretouchTask::pretouch(const char* task_name, char* start_address, char* end_address,
                             size_t page_size, WorkGang* pretouch_gang) {
-  // Chunk size should be at least (unmodified) page size as using multiple threads 
+  // Chunk size should be at least (unmodified) page size as using multiple threads
   // pretouch on a single chunk can decrease performance.
   size_t chunk_size = MAX2(PretouchTask::chunk_size(), page_size);
 #ifdef LINUX
