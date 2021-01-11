@@ -476,6 +476,8 @@ void ClassListParser::resolve_indy(Symbol* class_name_symbol, TRAPS) {
     }
     oop exception = THREAD->pending_exception();
     if (exception->is_a(SystemDictionary::Error_klass())) {
+      // Clear the exception associated with errors like UnsupportedClassVersionError
+      // or NoSuchMethodError so that CDS dumping can continue.
       CLEAR_PENDING_EXCEPTION;
     } else {
       exit(1);
