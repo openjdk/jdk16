@@ -225,7 +225,6 @@ public class AquaButtonUI extends BasicButtonUI implements Sizeable {
         b.putClientProperty(this, null);
         if (listener != null) {
             b.removeMouseListener(listener);
-            b.removeMouseListener(listener);
             b.removeMouseMotionListener(listener);
             b.removeFocusListener(listener);
             b.removeChangeListener(listener);
