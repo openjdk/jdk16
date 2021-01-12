@@ -2045,7 +2045,7 @@ const Type* LoadNode::Value(PhaseGVN* phase) const {
     }
   }
 
-  if (is_instance && !_type->is_vect()) {
+  if (is_instance && (_type->isa_vect() == NULL)) {
     // If we have an instance type and our memory input is the
     // programs's initial memory state, there is no matching store,
     // so just return a zero of the appropriate type -
