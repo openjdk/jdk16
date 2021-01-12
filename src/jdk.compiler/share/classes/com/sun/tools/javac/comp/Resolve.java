@@ -3245,7 +3245,7 @@ public class Resolve {
          * Does this result corresponds to a successful lookup (i.e. one where a method has been found?)
          */
         boolean isSuccess() {
-            return staticKind != StaticKind.UNDEFINED;
+            return sym.kind == MTH && staticKind != StaticKind.UNDEFINED;
         }
 
         /**

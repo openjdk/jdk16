@@ -115,5 +115,22 @@ public class BoundUnboundSearchTest extends CompilationTestCase {
                     """
                 )
         );
+
+        assertFail("compiler.err.invalid.mref",
+                getDiagConsumer(-1, -1),
+                """
+                import java.util.function.*;
+
+                public class Test {
+                    public String foo(Object o) { return "foo"; }
+                    public static String foo(String o) { return "bar"; }
+
+                    public void test() {
+                        // method bar doesn't exist
+                        Function<String, String> f = Test::bar;
+                    }
+                }
+                """
+        );
     }
 }
