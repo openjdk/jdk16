@@ -37,7 +37,6 @@
 #include "interpreter/bytecodeStream.hpp"
 #include "interpreter/linkResolver.hpp"
 #include "logging/log.hpp"
-#include "logging/logStream.hpp"
 #include "logging/logTag.hpp"
 #include "memory/archiveUtils.hpp"
 #include "memory/metaspaceShared.hpp"
@@ -464,29 +463,17 @@ bool ClassListParser::is_matching_cp_entry(constantPoolHandle &pool, int cp_inde
 void ClassListParser::resolve_indy(Symbol* class_name_symbol, TRAPS) {
   ClassListParser::resolve_indy_impl(class_name_symbol, THREAD);
   if (HAS_PENDING_EXCEPTION) {
-    LogTarget(Debug, cds, lambda) log;
-    if (log.is_enabled()) {
-      ResourceMark rm(THREAD);
-      LogStream ls(log);
-      log.print("resolve_indy for class %s has", class_name_symbol->as_C_string());
-      oop message = java_lang_Throwable::message(PENDING_EXCEPTION);
-      if (message != NULL) {
-        char* ex_msg = java_lang_String::as_utf8_string(message);
-        ls.print(" exception pending '%s %s'",
-                  PENDING_EXCEPTION->klass()->external_name(), ex_msg);
-      } else {
-        ls.print(" exception pending %s ",
-                  PENDING_EXCEPTION->klass()->external_name());
-      }
+    ResourceMark rm(THREAD);
+    char* ex_msg = (char*)"";
+    oop message = java_lang_Throwable::message(PENDING_EXCEPTION);
+    if (message != NULL) {
+      ex_msg = java_lang_String::as_utf8_string(message);
     }
-    oop exception = THREAD->pending_exception();
-    if (exception->is_a(SystemDictionary::LinkageError_klass())) {
-      // Clear the exception associated with errors like UnsupportedClassVersionError
-      // or NoSuchMethodError so that CDS dumping can continue.
-      CLEAR_PENDING_EXCEPTION;
-    } else {
-      exit(1);
-    }
+    log_warning(cds)("resolve_indy for class %s has encountered exception: %s %s",
+                     class_name_symbol->as_C_string(),
+                     PENDING_EXCEPTION->klass()->external_name(),
+                     ex_msg);
+    CLEAR_PENDING_EXCEPTION;
   }
 }
 
