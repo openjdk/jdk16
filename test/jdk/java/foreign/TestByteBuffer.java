@@ -71,6 +71,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import jdk.internal.foreign.HeapMemorySegmentImpl;
@@ -646,6 +647,23 @@ public class TestByteBuffer {
             ByteBuffer bb = segment.asByteBuffer();
             channel.write(bb);
         }
+    }
+
+    @Test(dataProvider="segments")
+    public void viewsFromSharedSegment(Supplier<MemorySegment> segmentSupplier) {
+        try (MemorySegment segment = segmentSupplier.get().share()) {
+            var byteBuffer = segment.asByteBuffer();
+            byteBuffer.asReadOnlyBuffer();
+            byteBuffer.slice(0, 8);
+        }
+    }
+
+    @DataProvider(name = "segments")
+    public static Object[][] segments() throws Throwable {
+        return new Object[][] {
+                { (Supplier<MemorySegment>) () -> MemorySegment.allocateNative(16) },
+                { (Supplier<MemorySegment>) () -> MemorySegment.ofArray(new byte[16]) }
+        };
     }
 
     @DataProvider(name = "bufferOps")
