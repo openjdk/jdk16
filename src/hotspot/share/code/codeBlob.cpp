@@ -304,6 +304,16 @@ AdapterBlob* AdapterBlob::create(CodeBuffer* cb) {
   return blob;
 }
 
+void* VtableBlob::operator new(size_t s, unsigned size) throw() {
+  // Handling of allocation failure stops compilation and prints a bunch of
+  // stuff, which requires unlocking the CodeCache_lock, so that the Compile_lock
+  // can be locked, and then re-locking the CodeCache_lock. That is not safe in
+  // this context as we hold the CompiledICLocker. So we just don't handle code
+  // cache exhaustion here; we leave that for a later allocation that does not
+  // hold the CompiledICLocker.
+  return CodeCache::allocate(size, CodeBlobType::NonNMethod, false /* handle_alloc_failure */);
+}
+
 VtableBlob::VtableBlob(const char* name, int size) :
   BufferBlob(name, size) {
 }
