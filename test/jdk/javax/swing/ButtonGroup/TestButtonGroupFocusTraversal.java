@@ -24,7 +24,7 @@
 /*
  * @test
  * @key headful
- * @bug 8249548
+ * @bug 8249548 8259237
  * @summary Test focus traversal in button group containing JToggleButton
  * and JRadioButton
  * @run main TestButtonGroupFocusTraversal
