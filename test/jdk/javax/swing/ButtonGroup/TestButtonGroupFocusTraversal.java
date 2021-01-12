@@ -32,6 +32,7 @@
 
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -51,7 +52,9 @@ public class TestButtonGroupFocusTraversal {
     private static JFrame frame;
     private static JTextField textFieldFirst, textFieldLast;
     private static JToggleButton toggleButton1, toggleButton2;
+    private static JCheckBox checkBox1, checkBox2;
     private static boolean toggleButtonActionPerformed;
+    private static boolean checkboxActionPerformed;
     private static JRadioButton radioButton1, radioButton2;
     private static Robot robot;
 
@@ -78,6 +81,8 @@ public class TestButtonGroupFocusTraversal {
                 toggleButton2 = new JToggleButton("2");
                 radioButton1 = new JRadioButton("1");
                 radioButton2 = new JRadioButton("2");
+                checkBox1 = new JCheckBox("1");
+                checkBox2 = new JCheckBox("2");
 
                 toggleButton1.setAction(new AbstractAction() {
                     @Override
@@ -93,6 +98,20 @@ public class TestButtonGroupFocusTraversal {
                     }
                 });
 
+                checkBox1.setAction(new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        checkboxActionPerformed = true;
+                    }
+                });
+
+                checkBox2.setAction(new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        checkboxActionPerformed = true;
+                    }
+                });
+
                 ButtonGroup toggleGroup = new ButtonGroup();
                 toggleGroup.add(toggleButton1);
                 toggleGroup.add(toggleButton2);
@@ -101,8 +120,13 @@ public class TestButtonGroupFocusTraversal {
                 radioGroup.add(radioButton1);
                 radioGroup.add(radioButton2);
 
+                ButtonGroup checkboxButtonGroup = new ButtonGroup();
+                checkboxButtonGroup.add(checkBox1);
+                checkboxButtonGroup.add(checkBox2);
+
                 toggleButton2.setSelected(true);
                 radioButton2.setSelected(true);
+                checkBox2.setSelected(true);
 
                 frame = new JFrame("Test");
                 frame.setLayout(new FlowLayout());
@@ -113,6 +137,8 @@ public class TestButtonGroupFocusTraversal {
                 pane.add(toggleButton2);
                 pane.add(radioButton1);
                 pane.add(radioButton2);
+                pane.add(checkBox1);
+                pane.add(checkBox2);
                 pane.add(textFieldLast);
 
                 frame.pack();
@@ -147,6 +173,13 @@ public class TestButtonGroupFocusTraversal {
     private static void checkToggleButtonActionPerformed() {
         if (toggleButtonActionPerformed) {
             throw new RuntimeException("Toggle Button Action should not be" +
+                    "performed");
+        }
+    }
+
+    private static void checkCheckboxActionPerformed() {
+        if (toggleButtonActionPerformed) {
+            throw new RuntimeException("Checkbox Action should not be" +
                     "performed");
         }
     }
@@ -189,7 +222,13 @@ public class TestButtonGroupFocusTraversal {
                 checkFocusedComponent(radioButton2);
 
                 pressKey(KeyEvent.VK_TAB);
+                checkFocusedComponent(checkBox2);
+
+                pressKey(KeyEvent.VK_TAB);
                 checkFocusedComponent(textFieldLast);
+
+                pressKey(KeyEvent.VK_SHIFT, KeyEvent.VK_TAB);
+                checkFocusedComponent(checkBox2);
 
                 pressKey(KeyEvent.VK_SHIFT, KeyEvent.VK_TAB);
                 checkFocusedComponent(radioButton2);
@@ -234,6 +273,24 @@ public class TestButtonGroupFocusTraversal {
                 pressKey(KeyEvent.VK_DOWN);
                 checkFocusedComponent(radioButton2);
 
+                pressKey(KeyEvent.VK_TAB);
+                checkFocusedComponent(checkBox2);
+
+                pressKey(KeyEvent.VK_LEFT);
+                checkCheckboxActionPerformed();
+                checkFocusedComponent(checkBox1);
+
+                pressKey(KeyEvent.VK_RIGHT);
+                checkCheckboxActionPerformed();
+                checkFocusedComponent(checkBox2);
+
+                pressKey(KeyEvent.VK_UP);
+                checkCheckboxActionPerformed();
+                checkFocusedComponent(checkBox1);
+
+                pressKey(KeyEvent.VK_DOWN);
+                checkCheckboxActionPerformed();
+                checkFocusedComponent(checkBox2);
             } finally {
                 if (frame != null) {
                     SwingUtilities.invokeAndWait(frame::dispose);
