@@ -762,8 +762,11 @@ public class BasicButtonUI extends ButtonUI{
         }
 
         /**
-         * Find the new toggle button that focus needs to be
+         * Find the new toggle/radio button that focus needs to be
          * moved to in the group, select the button
+         * In case of radio button, setPressed and setArmed is called
+         * on the button model, so that Action set on button is performed
+         * on selecting the button
          *
          * @param next, indicate if it's arrow up/left or down/right
          */
