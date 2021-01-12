@@ -45,6 +45,7 @@ public class BadBSM {
                         "@lambda-proxy WrongBSM 7"),
         "-Xlog:cds+lambda=debug");
     out.shouldHaveExitValue(0)
-       .shouldContain("resolve_indy for class WrongBSM has exception pending 'java.lang.NoSuchMethodError '");
+       .shouldContain("resolve_indy for class WrongBSM has")
+       .shouldContain("exception pending 'java.lang.NoSuchMethodError '");
   }
 }
