@@ -1,5 +1,5 @@
-// Copyright (c) 2020, 2021, Oracle and/or its affiliates. All rights reserved.
-// Copyright (c) 2020, 2021, Arm Limited. All rights reserved.
+// Copyright (c) 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2020, Arm Limited. All rights reserved.
 // DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 //
 // This code is free software; you can redistribute it and/or modify it
@@ -97,17 +97,16 @@ dnl         $1 $2
 REINTERPRET(D, 8)
 REINTERPRET(X, 16)
 dnl
-
-instruct reinterpretD2X(vecX dst, vecD src)
+define(`REINTERPRET_X', `
+instruct reinterpret$1`'2$2`'(vec$2 dst, vec$1 src)
 %{
-  predicate(n->bottom_type()->is_vect()->length_in_bytes() == 16 &&
-            n->in(1)->bottom_type()->is_vect()->length_in_bytes() == 8);
+  predicate(n->bottom_type()->is_vect()->length_in_bytes() == $3 &&
+            n->in(1)->bottom_type()->is_vect()->length_in_bytes() == $4);
   match(Set dst (VectorReinterpret src));
   ins_cost(INSN_COST);
-  format %{ " # reinterpret $dst,$src\t# D2X" %}
+  format %{ " # reinterpret $dst,$src" %}
   ins_encode %{
-    // If registers are the same, no register move is required - the
-    // upper 64 bits of 'src' are expected to be initialized to zero.
+    // If register is the same, then move is not needed.
     if (as_FloatRegister($dst$$reg) != as_FloatRegister($src$$reg)) {
       __ orr(as_FloatRegister($dst$$reg), __ T8B,
              as_FloatRegister($src$$reg),
@@ -115,24 +114,11 @@ instruct reinterpretD2X(vecX dst, vecD src)
     }
   %}
   ins_pipe(vlogical64);
-%}
-
-instruct reinterpretX2D(vecD dst, vecX src)
-%{
-  predicate(n->bottom_type()->is_vect()->length_in_bytes() == 8 &&
-            n->in(1)->bottom_type()->is_vect()->length_in_bytes() == 16);
-  match(Set dst (VectorReinterpret src));
-  ins_cost(INSN_COST);
-  format %{ " # reinterpret $dst,$src\t# X2D" %}
-  ins_encode %{
-    // Resize the vector from 128-bits to 64-bits. The higher 64-bits of
-    // the "dst" register must be cleared to zero.
-    __ orr(as_FloatRegister($dst$$reg), __ T8B,
-           as_FloatRegister($src$$reg),
-           as_FloatRegister($src$$reg));
-  %}
-  ins_pipe(vlogical64);
-%}
+%}')dnl
+dnl           $1 $2 $3  $4
+REINTERPRET_X(D, X, 16, 8)
+REINTERPRET_X(X, D, 8,  16)
+dnl
 
 // ------------------------------ Vector cast -------------------------------
 dnl
