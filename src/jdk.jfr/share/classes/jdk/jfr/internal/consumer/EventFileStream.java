@@ -116,6 +116,7 @@ public final class EventFileStream extends AbstractEventStream {
         }
         RecordedEvent event;
         int index = 0;
+        onMetadata(currentParser); // if events are missing in chunk
         while (!currentParser.isChunkFinished()) {
             while ((event = currentParser.readStreamingEvent()) != null) {
                 if (index == cacheSorted.length) {
@@ -126,7 +127,6 @@ public final class EventFileStream extends AbstractEventStream {
                 cacheSorted[index++] = event;
             }
             dispatchOrdered(c, index);
-            onFlush();
         }
     }
 
