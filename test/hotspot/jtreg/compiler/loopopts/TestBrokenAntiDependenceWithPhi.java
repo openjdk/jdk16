@@ -43,7 +43,7 @@ public class TestBrokenAntiDependenceWithPhi {
         long l = checkSum(k);
         return l;
     }
-    
+
     void m() {
         int s, o, p[] = new int[a];
         double d;
@@ -55,7 +55,7 @@ public class TestBrokenAntiDependenceWithPhi {
         for (o = 6; o > 2; o--)
             p[o] = c;
     }
-    
+
     public static void main(String[] q) {
         TestBrokenAntiDependenceWithPhi r = new TestBrokenAntiDependenceWithPhi();
         try {
@@ -93,4 +93,3 @@ public class TestBrokenAntiDependenceWithPhi {
     }
 
 }
-
