@@ -241,11 +241,11 @@ public class EventDirectoryStream extends AbstractEventStream {
         while (true) {
             RecordedEvent e = currentParser.readStreamingEvent();
             if (e == null) {
-                onMetadata(currentParser);
+                onFlush();
                 return true;
-            } else {
-                c.dispatch(e);
             }
+            onMetadata(currentParser);
+            c.dispatch(e);
         }
     }
 
