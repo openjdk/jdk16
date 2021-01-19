@@ -4746,16 +4746,16 @@ int os::active_processor_count() {
   return active_cpus;
 }
 
-static volatile int warn_invalid_processor_id = 1;
-
 static bool should_warn_invalid_processor_id() {
   if (os::processor_count() == 1) {
     // Don't warn if we only have one processor
     return false;
   }
 
-  if (Atomic::load(&warn_invalid_processor_id) == 0 ||
-      Atomic::xchg(&warn_invalid_processor_id, 0) == 0) {
+  static volatile int warn_once = 1;
+
+  if (Atomic::load(&warn_once) == 0 ||
+      Atomic::xchg(&warn_once, 0) == 0) {
     // Don't warn more than once
     return false;
   }
@@ -4766,7 +4766,7 @@ static bool should_warn_invalid_processor_id() {
 uint os::processor_id() {
   const int id = Linux::sched_getcpu();
 
-  if (id >= 0 && id < processor_count()) {
+  if (id < processor_count()) {
     return (uint)id;
   }
 
@@ -4781,7 +4781,7 @@ uint os::processor_id() {
     log_warning(os)("Invalid processor id reported by the operating system "
                     "(got processor id %d, valid processor id range is 0-%d)",
                     id, processor_count() - 1);
-    log_warning(os)("Falling back so assuming processor id is 0. "
+    log_warning(os)("Falling back to assuming processor id is 0. "
                     "This could have a negative impact on performance.");
   }
 
