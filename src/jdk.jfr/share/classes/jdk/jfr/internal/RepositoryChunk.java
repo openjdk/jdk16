@@ -74,7 +74,7 @@ final class RepositoryChunk {
             String extendedName = String.format("%s_%02d%s", filename, i, FILE_EXTENSION);
             p = directory.toPath().resolve(extendedName);
         }
-        p = directory.toPath().resolve(filename + "_" + System.currentTimeMillis() + FILE_EXTENSION);
+        p = directory.toPath().resolve(filename + "_UTC_" + System.currentTimeMillis() + FILE_EXTENSION);
         return new SafePath(p);
     }
 

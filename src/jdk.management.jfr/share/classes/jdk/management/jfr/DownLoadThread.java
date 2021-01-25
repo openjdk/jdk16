@@ -29,6 +29,8 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
+import jdk.jfr.internal.management.ManagementSupport;
+
 final class DownLoadThread extends Thread {
     private final RemoteRecordingStream stream;
     private final Instant startTime;
@@ -65,7 +67,7 @@ final class DownLoadThread extends Thread {
                 }
             }
         } catch (IOException ioe) {
-           // ignore
+            ManagementSupport.logDebug(ioe.getMessage());
         } finally {
            diskRepository.complete();
         }

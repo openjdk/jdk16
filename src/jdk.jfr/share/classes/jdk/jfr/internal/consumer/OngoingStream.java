@@ -119,8 +119,7 @@ public final class OngoingStream extends EventByteStream {
                     throw new IOException("No progress");
                 }
                 startTimeNanos += header.getDurationNanos();
-                Instant timestamp = Utils.epochNanosToInstant(startTimeNanos);
-                ManagementSupport.removeBefore(recording, timestamp);
+                ManagementSupport.removePath(recording, path);
                 closeInput();
             } else {
                 header.refresh();

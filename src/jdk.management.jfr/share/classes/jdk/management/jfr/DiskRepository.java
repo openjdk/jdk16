@@ -74,6 +74,7 @@ final class DiskRepository implements Closeable {
     static final int HEADER_START_NANOS_POSITION = 32;
     static final int HEADER_SIZE = 68;
     static final int HEADER_FILE_DURATION = 40;
+    static final String FILE_EXTENSION = ".jfr";
 
     private final Deque<DiskChunk> activeChunks = new ArrayDeque<>();
     private final Deque<DiskChunk> deadChunks = new ArrayDeque<>();
@@ -326,7 +327,7 @@ final class DiskRepository implements Closeable {
         ZoneOffset z = OffsetDateTime.now().getOffset();
         LocalDateTime d = LocalDateTime.ofEpochSecond(epochSecond, nanoOfSecond, z);
         String filename = formatDateTime(d);
-        Path p1 = directory.resolve(filename + ".jfr");
+        Path p1 = directory.resolve(filename + FILE_EXTENSION);
         if (!Files.exists(p1)) {
             return new DiskChunk(p1, nanos);
         }
@@ -335,12 +336,13 @@ final class DiskRepository implements Closeable {
             if (i < 10) {
                 s = "0" + s;
             }
-            Path p2 = directory.resolve(filename + "_" + s + ".jfr");
+            Path p2 = directory.resolve(filename + "_" + s + FILE_EXTENSION);
             if (!Files.exists(p2)) {
                 return new DiskChunk(p2, nanos);
             }
         }
-        throw new IOException("Could not create chunk for path " + p1);
+        Path p = directory.resolve(filename + "_UTC_" + System.currentTimeMillis() + FILE_EXTENSION);
+        return new DiskChunk(p, nanos);
     }
 
     static String formatDateTime(LocalDateTime time) {
