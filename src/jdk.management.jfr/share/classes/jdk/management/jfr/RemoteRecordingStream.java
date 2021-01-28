@@ -551,8 +551,8 @@ public final class RemoteRecordingStream implements EventStream {
     }
 
     private void startDownload() {
-        Thread downLoadThread = new DownLoadThread(this);
-        downLoadThread.setName("JFR: Download Thread " + creationTime);
+        String name = "JFR: Download Thread " + creationTime;
+        Thread downLoadThread = new DownLoadThread(this, name);
         downLoadThread.start();
     }
 
