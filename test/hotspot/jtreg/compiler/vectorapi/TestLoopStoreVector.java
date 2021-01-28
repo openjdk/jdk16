@@ -30,9 +30,10 @@ import jdk.incubator.vector.VectorSpecies;
 /*
  * @test
  * @bug 8260339
+ * @summary StoreVectorNode is not considered with -XX:+OptimizeFill
  * @modules jdk.incubator.vector
  *
- * @run main/othervm -XX:+IgnoreUnrecognizedVMOptions -XX:+OptimizeFill
+ * @run main/othervm -XX:+IgnoreUnrecognizedVMOptions -XX:+OptimizeFill compiler.vectorapi.TestLoopStoreVector
  */
 
 public class TestLoopStoreVector {
