@@ -32,7 +32,7 @@ import jdk.incubator.vector.VectorSpecies;
  * @bug 8260339
  * @modules jdk.incubator.vector
  *
- * @run main compiler.vectorapi.TestLoopStoreVector
+ * @run main/othervm -XX:+IgnoreUnrecognizedVMOptions -XX:+OptimizeFill
  */
 
 public class TestLoopStoreVector {
