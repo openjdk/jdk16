@@ -18898,7 +18898,7 @@ instruct vsrla4S_imm(vecD dst, vecD src, immI shift) %{
              as_FloatRegister($src$$reg),
              as_FloatRegister($src$$reg));
     } else {
-      __ ushr(as_FloatRegister($dst$$reg), __ T4H,
+      __ usra(as_FloatRegister($dst$$reg), __ T4H,
              as_FloatRegister($src$$reg), sh);
     }
   %}
