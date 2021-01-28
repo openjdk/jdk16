@@ -184,7 +184,7 @@ public final class Utils {
 
     // This method reduces the number of loaded classes
     // compared to DateTimeFormatter
-    static String formatDateTime(LocalDateTime time) {
+    public static String formatDateTime(LocalDateTime time) {
         StringBuilder sb = new StringBuilder(19);
         sb.append(time.getYear() / 100);
         appendPadded(sb, time.getYear() % 100, true);

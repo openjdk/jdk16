@@ -500,6 +500,11 @@ public final class SecuritySupport {
         public  long fileSize(Path p) throws IOException {
             return doPrivilegedIOWithReturn( () -> Files.size(p));
         }
+
+        @Override
+        public boolean exists(Path p) throws IOException {
+            return doPrivilegedIOWithReturn( () -> Files.exists(p));
+        }
     }
 
 

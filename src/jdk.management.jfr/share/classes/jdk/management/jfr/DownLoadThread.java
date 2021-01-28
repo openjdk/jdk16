@@ -38,6 +38,7 @@ final class DownLoadThread extends Thread {
     private final DiskRepository diskRepository;
 
     DownLoadThread(RemoteRecordingStream stream) {
+        this.setName("JFR: Download Recording Stream " + stream.recordingId);
         this.stream = stream;
         this.startTime = stream.startTime;
         this.endTime = stream.endTime;

@@ -35,6 +35,7 @@ import java.time.ZonedDateTime;
 import java.util.Comparator;
 
 import jdk.jfr.internal.SecuritySupport.SafePath;
+import jdk.jfr.internal.management.ChunkFilename;
 
 final class RepositoryChunk {
     private static final int MAX_CHUNK_NAMES = 100;
@@ -47,7 +48,6 @@ final class RepositoryChunk {
         }
     };
 
-    private final SafePath repositoryPath;
     private final SafePath chunkFile;
     private final Instant startTime;
     private final RandomAccessFile unFinishedRAF;
@@ -56,26 +56,10 @@ final class RepositoryChunk {
     private int refCount = 0;
     private long size;
 
-    RepositoryChunk(SafePath path, ZonedDateTime timestamp) throws Exception {
-        this.startTime = timestamp.toInstant();
-        this.repositoryPath = path;
-        this.chunkFile = findFileName(repositoryPath, timestamp.toLocalDateTime());
+    RepositoryChunk(SafePath path, Instant startTime) throws Exception {
+        this.startTime = startTime;
+        this.chunkFile = path;
         this.unFinishedRAF = SecuritySupport.createRandomAccessFile(chunkFile);
-    }
-
-    private static SafePath findFileName(SafePath directory, LocalDateTime time) throws Exception {
-        String filename = Utils.formatDateTime(time);
-        Path p = directory.toPath().resolve(filename + FILE_EXTENSION);
-        for (int i = 1; i < MAX_CHUNK_NAMES; i++) {
-            SafePath s = new SafePath(p);
-            if (!SecuritySupport.exists(s)) {
-                return s;
-            }
-            String extendedName = String.format("%s_%02d%s", filename, i, FILE_EXTENSION);
-            p = directory.toPath().resolve(extendedName);
-        }
-        p = directory.toPath().resolve(filename + "_UTC_" + System.currentTimeMillis() + FILE_EXTENSION);
-        return new SafePath(p);
     }
 
     void finish(Instant endTime) {

@@ -133,8 +133,7 @@ public final class RemoteRecordingStream implements EventStream {
 
         @Override
         public void accept(Long endNanos) {
-            Instant t = ManagementSupport.epochNanosToInstant(endNanos);
-            repository.onChunkComplete(t);
+            repository.onChunkComplete(endNanos);
         }
     }
 
