@@ -35,7 +35,6 @@ import java.time.ZonedDateTime;
 import java.util.Comparator;
 
 import jdk.jfr.internal.SecuritySupport.SafePath;
-import jdk.jfr.internal.management.ChunkFilename;
 
 final class RepositoryChunk {
     private static final int MAX_CHUNK_NAMES = 100;

@@ -49,7 +49,6 @@ final class DiskRepository implements Closeable {
     final static class DiskChunk {
         final Path path;
         final long startTimeNanos;
-        long endTimeNanos;
         Instant endTime;
         long size;
 
@@ -77,7 +76,6 @@ final class DiskRepository implements Closeable {
     static final int HEADER_START_NANOS_POSITION = 32;
     static final int HEADER_SIZE = 68;
     static final int HEADER_FILE_DURATION = 40;
-    static final String FILE_EXTENSION = ".jfr";
 
     private final Deque<DiskChunk> activeChunks = new ArrayDeque<>();
     private final Deque<DiskChunk> deadChunks = new ArrayDeque<>();
@@ -301,8 +299,8 @@ final class DiskRepository implements Closeable {
             previousRAFstate = state;
             currentChunk.size = Files.size(currentChunk.path);
             long durationNanos = buffer.getLong(HEADER_FILE_DURATION);
-            currentChunk.endTimeNanos = currentChunk.startTimeNanos + durationNanos;
-            currentChunk.endTime = ManagementSupport.epochNanosToInstant(currentChunk.endTimeNanos);
+            long endTimeNanos = currentChunk.startTimeNanos + durationNanos;
+            currentChunk.endTime = ManagementSupport.epochNanosToInstant(endTimeNanos);
         }
         raf.seek(position);
     }
