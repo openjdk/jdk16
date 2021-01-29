@@ -34,38 +34,41 @@
 
 package compiler.loopopts;
 
+// the test code is derived from a randomly generated test
 public class TestLoopLimitNodeElimination {
-    int a = 400;
-    static int counter = 0;
-    long b[] = new long[a];
+    private static class MyException extends RuntimeException { }
+    private static final int ITERATIONS = 100000;
+    private static final int SIZE = 400;
 
-    void c(String[] d) {
-        int e = 0, f, g, h, i[] = new int[a];
-        long j;
-        f = 2;
-        b[f] = e;
-        b = b;
-        for (j = 301; j > 2; j -= 2) {
-            g = 1;
+    private static int counter = 0;
+
+    int[] array1 = new int[SIZE];
+
+    void test() {
+        int[] array2 = new int[SIZE];
+        array1[2] = 0;
+        array1 = array1;
+        for (long i = 301; i > 2; i -= 2) {
+            int j = 1;
             do {
-                for (h = (int) j; h < 1; h++) {
-                }
-            } while (++g < 4);
+               for (int k = (int) i; k < 1; k++) { }
+            } while (++j < 4);
         }
+
         counter++;
-        if (counter == 100000) {
-            throw new RuntimeException("expected");
+        if (counter == ITERATIONS) {
+            throw new MyException();
         }
     }
 
-    public static void main(String[] k) {
+    public static void main(String[] args) {
         try {
-            TestLoopLimitNodeElimination l = new TestLoopLimitNodeElimination();
-            for (;;) {
-                l.c(k);
+            var test = new TestLoopLimitNodeElimination();
+            while (true) {
+                test.test();
             }
-        } catch (RuntimeException ex) {
-            // Expected
+        } catch (MyException e) {
+            // expected
         }
     }
 }
