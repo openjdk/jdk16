@@ -23,7 +23,7 @@
 
 /**
  * @test
- * @bug 8260585 
+ * @bug 8260585
  * @summary AArch64: Wrong code generated for shifting right and accumulating four unsigned short integers.
  * @run main/othervm compiler.c2.TestShiftRightAndAccumulate
  *
@@ -123,7 +123,7 @@ public class TestShiftRightAndAccumulate {
             longsC[i] = longsA[i] + (longsB[i] >> 5);
         }
         assertTrue(Arrays.equals(longsC, longsD));
-  
+
         for (int i = 0; i < longsC.length; i++) {
             longsC[i] = (longsB[i] >>> 2) + longsA[i];
         }
