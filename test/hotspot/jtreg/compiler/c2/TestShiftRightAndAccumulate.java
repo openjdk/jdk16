@@ -40,8 +40,8 @@ public class TestShiftRightAndAccumulate {
     private static final int NUM_ITERS = 200000;
     private static final int MAX_TESTS = 10;
 
-    private static byte[]  bytesA,  bytesB,  bytesC;
-    private static short[] shortsA, shortsB, shortsC;
+    private static byte[]  bytesA,  bytesB,  bytesC,  bytesD;
+    private static short[] shortsA, shortsB, shortsC, shortsD;
     private static char[]  charsA,  charsB,  charsC;
     private static int[]   intsA,   intsB,   intsC;
     private static long[]  longsA,  longsB,  longsC;
@@ -85,101 +85,117 @@ public class TestShiftRightAndAccumulate {
     static void test_bytes() {
         for (int i = 0; i < bytesC.length; i++) {
             bytesC[i] = (byte) (bytesA[i] + (bytesB[i] >> 1));
-            bytesC[i] = (byte) (bytesC[i] + bytesA[i] + bytesB[i]);
+            bytesD[i] = (byte) (bytesA[i] + bytesB[i]);
         }
         assertTrue(Arrays.equals(bytesC, gBytes[0]));
+        assertTrue(Arrays.equals(bytesD, gBytes[MAX_TESTS]));
 
         for (int i = 0; i < bytesC.length; i++) {
             bytesC[i] = (byte) (bytesA[i] + (bytesB[i] >> 8));
-            bytesC[i] = (byte) (bytesC[i] + bytesA[i] + bytesB[i]);
+            bytesD[i] = (byte) (bytesA[i] + bytesB[i]);
         }
         assertTrue(Arrays.equals(bytesC, gBytes[1]));
+        assertTrue(Arrays.equals(bytesD, gBytes[MAX_TESTS + 1]));
 
         for (int i = 0; i < bytesC.length; i++) {
             bytesC[i] = (byte) (bytesA[i] + (bytesB[i] >> 13));
-            bytesC[i] = (byte) (bytesC[i] + bytesA[i] + bytesB[i]);
+            bytesD[i] = (byte) (bytesA[i] + bytesB[i]);
         }
         assertTrue(Arrays.equals(bytesC, gBytes[2]));
+        assertTrue(Arrays.equals(bytesD, gBytes[MAX_TESTS + 2]));
 
         for (int i = 0; i < bytesC.length; i++) {
             bytesC[i] = (byte) (bytesA[i] + (bytesB[i] >> 19));
-            bytesC[i] = (byte) (bytesC[i] + bytesA[i] + bytesB[i]);
+            bytesD[i] = (byte) (bytesA[i] + bytesB[i]);
         }
         assertTrue(Arrays.equals(bytesC, gBytes[3]));
+        assertTrue(Arrays.equals(bytesD, gBytes[MAX_TESTS + 3]));
 
         for (int i = 0; i < bytesC.length; i++) {
-            bytesC[i] = (byte) (bytesA[i] + (bytesB[i] >>> 2));
-            bytesC[i] = (byte) (bytesC[i] + bytesA[i] + bytesB[i]);
+            bytesC[i] = (byte) (bytesA[i] + (bytesB[i] >>> 1));
+            bytesD[i] = (byte) (bytesA[i] + bytesB[i]);
         }
         assertTrue(Arrays.equals(bytesC, gBytes[4]));
+        assertTrue(Arrays.equals(bytesD, gBytes[MAX_TESTS + 4]));
 
         for (int i = 0; i < bytesC.length; i++) {
             bytesC[i] = (byte) (bytesA[i] + (bytesB[i] >>> 8));
-            bytesC[i] = (byte) (bytesC[i] + bytesA[i] + bytesB[i]);
+            bytesD[i] = (byte) (bytesA[i] + bytesB[i]);
         }
         assertTrue(Arrays.equals(bytesC, gBytes[5]));
+        assertTrue(Arrays.equals(bytesD, gBytes[MAX_TESTS + 5]));
 
         for (int i = 0; i < bytesC.length; i++) {
             bytesC[i] = (byte) (bytesA[i] + (bytesB[i] >>> 13));
-            bytesC[i] = (byte) (bytesC[i] + bytesA[i] + bytesB[i]);
+            bytesD[i] = (byte) (bytesA[i] + bytesB[i]);
         }
         assertTrue(Arrays.equals(bytesC, gBytes[6]));
+        assertTrue(Arrays.equals(bytesD, gBytes[MAX_TESTS + 6]));
 
         for (int i = 0; i < bytesC.length; i++) {
             bytesC[i] = (byte) (bytesA[i] + (bytesB[i] >>> 19));
-            bytesC[i] = (byte) (bytesC[i] + bytesA[i] + bytesB[i]);
+            bytesD[i] = (byte) (bytesA[i] + bytesB[i]);
         }
         assertTrue(Arrays.equals(bytesC, gBytes[7]));
+        assertTrue(Arrays.equals(bytesD, gBytes[MAX_TESTS + 7]));
     }
 
     static void test_shorts() {
         for (int i = 0; i < shortsC.length; i++) {
-            shortsC[i] = (short) (shortsA[i] + (shortsB[i] >> 7));
-            shortsC[i] = (short) (shortsC[i] + shortsA[i] + shortsB[i]);
+            shortsC[i] = (short) (shortsA[i] + (shortsB[i] >> 5));
+            shortsD[i] = (short) (shortsA[i] + shortsB[i]);
         }
         assertTrue(Arrays.equals(shortsC, gShorts[0]));
+        assertTrue(Arrays.equals(shortsD, gShorts[MAX_TESTS]));
 
         for (int i = 0; i < shortsC.length; i++) {
             shortsC[i] = (short) (shortsA[i] + (shortsB[i] >> 16));
-            shortsC[i] = (short) (shortsC[i] + shortsA[i] + shortsB[i]);
+            shortsD[i] = (short) (shortsA[i] + shortsB[i]);
         }
         assertTrue(Arrays.equals(shortsC, gShorts[1]));
+        assertTrue(Arrays.equals(shortsD, gShorts[MAX_TESTS + 1]));
 
         for (int i = 0; i < shortsC.length; i++) {
             shortsC[i] = (short) (shortsA[i] + (shortsB[i] >> 23));
-            shortsC[i] = (short) (shortsC[i] + shortsA[i] + shortsB[i]);
+            shortsD[i] = (short) (shortsA[i] + shortsB[i]);
         }
         assertTrue(Arrays.equals(shortsC, gShorts[2]));
+        assertTrue(Arrays.equals(shortsD, gShorts[MAX_TESTS + 2]));
 
         for (int i = 0; i < shortsC.length; i++) {
             shortsC[i] = (short) (shortsA[i] + (shortsB[i] >> 35));
-            shortsC[i] = (short) (shortsC[i] + shortsA[i] + shortsB[i]);
+            shortsD[i] = (short) (shortsA[i] + shortsB[i]);
         }
         assertTrue(Arrays.equals(shortsC, gShorts[3]));
+        assertTrue(Arrays.equals(shortsD, gShorts[MAX_TESTS + 3]));
 
         for (int i = 0; i < shortsC.length; i++) {
             shortsC[i] = (short) (shortsA[i] + (shortsB[i] >>> 7));
-            shortsC[i] = (short) (shortsC[i] + shortsA[i] + shortsB[i]);
+            shortsD[i] = (short) (shortsA[i] + shortsB[i]);
         }
         assertTrue(Arrays.equals(shortsC, gShorts[4]));
+        assertTrue(Arrays.equals(shortsD, gShorts[MAX_TESTS + 4]));
 
         for (int i = 0; i < shortsC.length; i++) {
             shortsC[i] = (short) (shortsA[i] + (shortsB[i] >>> 16));
-            shortsC[i] = (short) (shortsC[i] + shortsA[i] + shortsB[i]);
+            shortsD[i] = (short) (shortsA[i] + shortsB[i]);
         }
         assertTrue(Arrays.equals(shortsC, gShorts[5]));
+        assertTrue(Arrays.equals(shortsD, gShorts[MAX_TESTS + 5]));
 
         for (int i = 0; i < shortsC.length; i++) {
             shortsC[i] = (short) (shortsA[i] + (shortsB[i] >>> 23));
-            shortsC[i] = (short) (shortsC[i] + shortsA[i] + shortsB[i]);
+            shortsD[i] = (short) (shortsA[i] + shortsB[i]);
         }
         assertTrue(Arrays.equals(shortsC, gShorts[6]));
+        assertTrue(Arrays.equals(shortsD, gShorts[MAX_TESTS + 6]));
 
         for (int i = 0; i < shortsC.length; i++) {
             shortsC[i] = (short) (shortsA[i] + (shortsB[i] >>> 35));
-            shortsC[i] = (short) (shortsC[i] + shortsA[i] + shortsB[i]);
+            shortsD[i] = (short) (shortsA[i] + shortsB[i]);
         }
         assertTrue(Arrays.equals(shortsC, gShorts[7]));
+        assertTrue(Arrays.equals(shortsD, gShorts[MAX_TESTS + 7]));
     }
 
     static void test_chars() {
@@ -327,8 +343,11 @@ public class TestShiftRightAndAccumulate {
         intsC   = new int[count];
         longsC  = new long[count];
 
-        gBytes  = new byte[MAX_TESTS][count];
-        gShorts = new short[MAX_TESTS][count];
+        bytesD  = new byte[count];
+        shortsD = new short[count];
+
+        gBytes  = new byte[MAX_TESTS * 2][count];
+        gShorts = new short[MAX_TESTS * 2][count];
         gChars  = new char[MAX_TESTS][count];
         gInts   = new int[MAX_TESTS][count];
         gLongs  = new long[MAX_TESTS][count];
@@ -348,39 +367,39 @@ public class TestShiftRightAndAccumulate {
         }
 
         for (int i = 0; i < count; i++) {
-            gBytes[0][i]  = (byte) (bytesA[i] + (bytesB[i] >> 1));
-            gBytes[0][i]  = (byte) (gBytes[0][i] + bytesA[i] + bytesB[i]);
-            gBytes[1][i]  = (byte) (bytesA[i] + (bytesB[i] >> 8));
-            gBytes[1][i]  = (byte) (gBytes[1][i] + bytesA[i] + bytesB[i]);
-            gBytes[2][i]  = (byte) (bytesA[i] + (bytesB[i] >> 13));
-            gBytes[2][i]  = (byte) (gBytes[2][i] + bytesA[i] + bytesB[i]);
-            gBytes[3][i]  = (byte) (bytesA[i] + (bytesB[i] >> 19));
-            gBytes[3][i]  = (byte) (gBytes[3][i] + bytesA[i] + bytesB[i]);
-            gBytes[4][i]  = (byte) (bytesA[i] + (bytesB[i] >>> 2));
-            gBytes[4][i]  = (byte) (gBytes[4][i] + bytesA[i] + bytesB[i]);
-            gBytes[5][i]  = (byte) (bytesA[i] + (bytesB[i] >>> 8));
-            gBytes[5][i]  = (byte) (gBytes[5][i] + bytesA[i] + bytesB[i]);
-            gBytes[6][i]  = (byte) (bytesA[i] + (bytesB[i] >>> 13));
-            gBytes[6][i]  = (byte) (gBytes[6][i] + bytesA[i] + bytesB[i]);
-            gBytes[7][i]  = (byte) (bytesA[i] + (bytesB[i] >>> 19));
-            gBytes[7][i]  = (byte) (gBytes[7][i] + bytesA[i] + bytesB[i]);
+            gBytes[0][i]              = (byte) (bytesA[i] + (bytesB[i] >> 1));
+            gBytes[MAX_TESTS][i]      = (byte) (bytesA[i] + bytesB[i]);
+            gBytes[1][i]              = (byte) (bytesA[i] + (bytesB[i] >> 8));
+            gBytes[MAX_TESTS + 1][i]  = (byte) (bytesA[i] + bytesB[i]);
+            gBytes[2][i]              = (byte) (bytesA[i] + (bytesB[i] >> 13));
+            gBytes[MAX_TESTS + 2][i]  = (byte) (bytesA[i] + bytesB[i]);
+            gBytes[3][i]              = (byte) (bytesA[i] + (bytesB[i] >> 19));
+            gBytes[MAX_TESTS + 3][i]  = (byte) (bytesA[i] + bytesB[i]);
+            gBytes[4][i]              = (byte) (bytesA[i] + (bytesB[i] >>> 1));
+            gBytes[MAX_TESTS + 4][i]  = (byte) (bytesA[i] + bytesB[i]);
+            gBytes[5][i]              = (byte) (bytesA[i] + (bytesB[i] >>> 8));
+            gBytes[MAX_TESTS + 5][i]  = (byte) (bytesA[i] + bytesB[i]);
+            gBytes[6][i]              = (byte) (bytesA[i] + (bytesB[i] >>> 13));
+            gBytes[MAX_TESTS + 6][i]  = (byte) (bytesA[i] + bytesB[i]);
+            gBytes[7][i]              = (byte) (bytesA[i] + (bytesB[i] >>> 19));
+            gBytes[MAX_TESTS + 7][i]  = (byte) (bytesA[i] + bytesB[i]);
 
-            gShorts[0][i]  = (short) (shortsA[i] + (shortsB[i] >> 7));
-            gShorts[0][i]  = (short) (gShorts[0][i] + shortsA[i] + shortsB[i]);
-            gShorts[1][i]  = (short) (shortsA[i] + (shortsB[i] >> 16));
-            gShorts[1][i]  = (short) (gShorts[1][i] + shortsA[i] + shortsB[i]);
-            gShorts[2][i]  = (short) (shortsA[i] + (shortsB[i] >> 23));
-            gShorts[2][i]  = (short) (gShorts[2][i] + shortsA[i] + shortsB[i]);
-            gShorts[3][i]  = (short) (shortsA[i] + (shortsB[i] >> 35));
-            gShorts[3][i]  = (short) (gShorts[3][i] + shortsA[i] + shortsB[i]);
-            gShorts[4][i]  = (short) (shortsA[i] + (shortsB[i] >>> 7));
-            gShorts[4][i]  = (short) (gShorts[4][i] + shortsA[i] + shortsB[i]);
-            gShorts[5][i]  = (short) (shortsA[i] + (shortsB[i] >>> 16));
-            gShorts[5][i]  = (short) (gShorts[5][i] + shortsA[i] + shortsB[i]);
-            gShorts[6][i]  = (short) (shortsA[i] + (shortsB[i] >>> 23));
-            gShorts[6][i]  = (short) (gShorts[6][i] + shortsA[i] + shortsB[i]);
-            gShorts[7][i]  = (short) (shortsA[i] + (shortsB[i] >>> 35));
-            gShorts[7][i]  = (short) (gShorts[7][i] + shortsA[i] + shortsB[i]);
+            gShorts[0][i]              = (short) (shortsA[i] + (shortsB[i] >> 5));
+            gShorts[MAX_TESTS][i]      = (short) (shortsA[i] + shortsB[i]);
+            gShorts[1][i]              = (short) (shortsA[i] + (shortsB[i] >> 16));
+            gShorts[MAX_TESTS + 1][i]  = (short) (shortsA[i] + shortsB[i]);
+            gShorts[2][i]              = (short) (shortsA[i] + (shortsB[i] >> 23));
+            gShorts[MAX_TESTS + 2][i]  = (short) (shortsA[i] + shortsB[i]);
+            gShorts[3][i]              = (short) (shortsA[i] + (shortsB[i] >> 35));
+            gShorts[MAX_TESTS + 3][i]  = (short) (shortsA[i] + shortsB[i]);
+            gShorts[4][i]              = (short) (shortsA[i] + (shortsB[i] >>> 7));
+            gShorts[MAX_TESTS + 4][i]  = (short) (shortsA[i] + shortsB[i]);
+            gShorts[5][i]              = (short) (shortsA[i] + (shortsB[i] >>> 16));
+            gShorts[MAX_TESTS + 5][i]  = (short) (shortsA[i] + shortsB[i]);
+            gShorts[6][i]              = (short) (shortsA[i] + (shortsB[i] >>> 23));
+            gShorts[MAX_TESTS + 6][i]  = (short) (shortsA[i] + shortsB[i]);
+            gShorts[7][i]              = (short) (shortsA[i] + (shortsB[i] >>> 35));
+            gShorts[MAX_TESTS + 7][i]  = (short) (shortsA[i] + shortsB[i]);
 
             gChars[0][i]  = (char) (charsA[i] + (charsB[i] >>> 4));
             gChars[0][i]  = (char) (gChars[0][i] + charsA[i] + charsB[i]);
