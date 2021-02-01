@@ -332,7 +332,7 @@ public class TestShiftRightAndAccumulate {
         gChars  = new char[MAX_TESTS][count];
         gInts   = new int[MAX_TESTS][count];
         gLongs  = new long[MAX_TESTS][count];
-        
+
         for (int i = 0; i < count; i++) {
             bytesA[i]  = (byte) r.nextInt();
             shortsA[i] = (short) r.nextInt();
