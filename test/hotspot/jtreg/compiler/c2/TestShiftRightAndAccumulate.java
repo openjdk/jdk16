@@ -25,8 +25,8 @@
  * @test
  * @bug 8260585
  * @summary AArch64: Wrong code generated for shifting right and accumulating four unsigned short integers.
- * @run main/othervm compiler.c2.TestShiftRightAndAccumulate
- *
+ * @run main/othervm -Xcomp compiler.c2.TestShiftRightAndAccumulate
+ * @run main/othervm -XX:-SuperWordLoopUnrollAnalysis compiler.c2.TestShiftRightAndAccumulate
  */
 
 package compiler.c2;
@@ -39,6 +39,7 @@ public class TestShiftRightAndAccumulate {
     private static final int LARGE_LEN = 1000;
     private static final int NUM_ITERS = 200000;
     private static final int MAX_TESTS = 10;
+    private static final int SMALL_INTS_LEN = 3;
 
     private static byte[]  bytesA,  bytesB,  bytesC,  bytesD;
     private static short[] shortsA, shortsB, shortsC, shortsD;
@@ -55,31 +56,24 @@ public class TestShiftRightAndAccumulate {
     private static Random r = new Random(32781);
 
     public static void main(String args[]) {
-      test_small();
-      test_large();
+      test_init(SMALL_LEN);
+      for (int it = 0; it < NUM_ITERS; it++) {
+          test_bytes();
+          test_shorts();
+          test_chars();
+          test_ints();
+          test_longs();
+      }
+
+      test_init(LARGE_LEN);
+      for (int it = 0; it < NUM_ITERS; it++) {
+          test_bytes();
+          test_shorts();
+          test_chars();
+          test_ints();
+          test_longs();
+      }
       System.out.println("Test PASSED");
-    }
-
-    static void test_small() {
-        test_init(SMALL_LEN);
-        for (int i = 0; i < NUM_ITERS; i++) {
-            test_bytes();
-            test_shorts();
-            test_chars();
-            test_ints();
-            test_longs();
-        }
-    }
-
-    static void test_large() {
-        test_init(LARGE_LEN);
-        for (int i = 0; i < NUM_ITERS; i++) {
-            test_bytes();
-            test_shorts();
-            test_chars();
-            test_ints();
-            test_longs();
-        }
     }
 
     static void test_bytes() {
@@ -325,22 +319,24 @@ public class TestShiftRightAndAccumulate {
     }
 
     static void test_init(int count) {
+        int countI = count == SMALL_LEN ? SMALL_INTS_LEN : count;
+
         bytesA  = new byte[count];
         shortsA = new short[count];
         charsA  = new char[count];
-        intsA   = new int[count];
+        intsA   = new int[countI];
         longsA  = new long[count];
 
         bytesB  = new byte[count];
         shortsB = new short[count];
         charsB  = new char[count];
-        intsB   = new int[count];
+        intsB   = new int[countI];
         longsB  = new long[count];
 
         bytesC  = new byte[count];
         shortsC = new short[count];
         charsC  = new char[count];
-        intsC   = new int[count];
+        intsC   = new int[countI];
         longsC  = new long[count];
 
         bytesD  = new byte[count];
@@ -349,20 +345,18 @@ public class TestShiftRightAndAccumulate {
         gBytes  = new byte[MAX_TESTS * 2][count];
         gShorts = new short[MAX_TESTS * 2][count];
         gChars  = new char[MAX_TESTS][count];
-        gInts   = new int[MAX_TESTS][count];
+        gInts   = new int[MAX_TESTS][countI];
         gLongs  = new long[MAX_TESTS][count];
 
         for (int i = 0; i < count; i++) {
             bytesA[i]  = (byte) r.nextInt();
             shortsA[i] = (short) r.nextInt();
             charsA[i]  = (char) r.nextInt();
-            intsA[i]   = r.nextInt();
             longsA[i]  = r.nextLong();
 
             bytesB[i]  = (byte) r.nextInt();
             shortsB[i] = (short) r.nextInt();
             charsB[i]  = (char) r.nextInt();
-            intsB[i]   = r.nextInt();
             longsB[i]  = r.nextLong();
         }
 
@@ -410,23 +404,6 @@ public class TestShiftRightAndAccumulate {
             gChars[3][i]  = (char) (charsA[i] + (charsB[i] >>> 35));
             gChars[3][i]  = (char) (gChars[3][i] + charsA[i] + charsB[i]);
 
-            gInts[0][i]  = intsA[i] + (intsB[i] >> 19);
-            gInts[0][i]  = gInts[0][i] + intsA[i] + intsB[i];
-            gInts[1][i]  = intsA[i] + (intsB[i] >> 32);
-            gInts[1][i]  = gInts[1][i] + intsA[i] + intsB[i];
-            gInts[2][i]  = intsA[i] + (intsB[i] >> 49);
-            gInts[2][i]  = gInts[2][i] + intsA[i] + intsB[i];
-            gInts[3][i]  = intsA[i] + (intsB[i] >> 67);
-            gInts[3][i]  = gInts[3][i] + intsA[i] + intsB[i];
-            gInts[4][i]  = intsA[i] + (intsB[i] >>> 19);
-            gInts[4][i]  = gInts[4][i] + intsA[i] + intsB[i];
-            gInts[5][i]  = intsA[i] + (intsB[i] >>> 32);
-            gInts[5][i]  = gInts[5][i] + intsA[i] + intsB[i];
-            gInts[6][i]  = intsA[i] + (intsB[i] >>> 49);
-            gInts[6][i]  = gInts[6][i] + intsA[i] + intsB[i];
-            gInts[7][i]  = intsA[i] + (intsB[i] >>> 67);
-            gInts[7][i]  = gInts[7][i] + intsA[i] + intsB[i];
-
             gLongs[0][i]  = longsA[i] + (longsB[i] >> 37);
             gLongs[0][i]  = gLongs[0][i] + longsA[i] + longsB[i];
             gLongs[1][i]  = longsA[i] + (longsB[i] >> 64);
@@ -443,6 +420,27 @@ public class TestShiftRightAndAccumulate {
             gLongs[6][i]  = gLongs[6][i] + longsA[i] + longsB[i];
             gLongs[7][i]  = longsA[i] + (longsB[i] >>> 137);
             gLongs[7][i]  = gLongs[7][i] + longsA[i] + longsB[i];
+        }
+
+        for (int i = 0; i < intsA.length; i++) {
+            intsA[i]     = r.nextInt();
+            intsB[i]     = r.nextInt();
+            gInts[0][i]  = intsA[i] + (intsB[i] >> 19);
+            gInts[0][i]  = gInts[0][i] + intsA[i] + intsB[i];
+            gInts[1][i]  = intsA[i] + (intsB[i] >> 32);
+            gInts[1][i]  = gInts[1][i] + intsA[i] + intsB[i];
+            gInts[2][i]  = intsA[i] + (intsB[i] >> 49);
+            gInts[2][i]  = gInts[2][i] + intsA[i] + intsB[i];
+            gInts[3][i]  = intsA[i] + (intsB[i] >> 67);
+            gInts[3][i]  = gInts[3][i] + intsA[i] + intsB[i];
+            gInts[4][i]  = intsA[i] + (intsB[i] >>> 19);
+            gInts[4][i]  = gInts[4][i] + intsA[i] + intsB[i];
+            gInts[5][i]  = intsA[i] + (intsB[i] >>> 32);
+            gInts[5][i]  = gInts[5][i] + intsA[i] + intsB[i];
+            gInts[6][i]  = intsA[i] + (intsB[i] >>> 49);
+            gInts[6][i]  = gInts[6][i] + intsA[i] + intsB[i];
+            gInts[7][i]  = intsA[i] + (intsB[i] >>> 67);
+            gInts[7][i]  = gInts[7][i] + intsA[i] + intsB[i];
         }
     }
 
