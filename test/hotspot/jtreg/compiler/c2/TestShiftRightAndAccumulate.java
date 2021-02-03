@@ -25,6 +25,7 @@
  * @test
  * @bug 8260585
  * @summary AArch64: Wrong code generated for shifting right and accumulating four unsigned short integers.
+ * @run main/othervm compiler.c2.TestShiftRightAndAccumulate
  * @run main/othervm -Xcomp compiler.c2.TestShiftRightAndAccumulate
  * @run main/othervm -XX:-SuperWordLoopUnrollAnalysis compiler.c2.TestShiftRightAndAccumulate
  */
@@ -39,7 +40,8 @@ public class TestShiftRightAndAccumulate {
     private static final int LARGE_LEN = 1000;
     private static final int NUM_ITERS = 200000;
     private static final int MAX_TESTS = 10;
-    private static final int SMALL_INTS_LEN = 3;
+    private static final int SMALL_INTS_LEN  = 3;
+    private static final int SMALL_BYTES_LEN = 80;
 
     private static byte[]  bytesA,  bytesB,  bytesC,  bytesD;
     private static short[] shortsA, shortsB, shortsC, shortsD;
@@ -319,48 +321,40 @@ public class TestShiftRightAndAccumulate {
     }
 
     static void test_init(int count) {
-        int countI = count == SMALL_LEN ? SMALL_INTS_LEN : count;
+        int countI = count == SMALL_LEN ? SMALL_INTS_LEN  : count;
+        int countB = count == SMALL_LEN ? SMALL_BYTES_LEN : count;
 
-        bytesA  = new byte[count];
+        bytesA  = new byte[countB];
         shortsA = new short[count];
         charsA  = new char[count];
         intsA   = new int[countI];
         longsA  = new long[count];
 
-        bytesB  = new byte[count];
+        bytesB  = new byte[countB];
         shortsB = new short[count];
         charsB  = new char[count];
         intsB   = new int[countI];
         longsB  = new long[count];
 
-        bytesC  = new byte[count];
+        bytesC  = new byte[countB];
         shortsC = new short[count];
         charsC  = new char[count];
         intsC   = new int[countI];
         longsC  = new long[count];
 
-        bytesD  = new byte[count];
+        bytesD  = new byte[countB];
         shortsD = new short[count];
 
-        gBytes  = new byte[MAX_TESTS * 2][count];
+        gBytes  = new byte[MAX_TESTS * 2][countB];
         gShorts = new short[MAX_TESTS * 2][count];
         gChars  = new char[MAX_TESTS][count];
         gInts   = new int[MAX_TESTS][countI];
         gLongs  = new long[MAX_TESTS][count];
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < countB; i++) {
             bytesA[i]  = (byte) r.nextInt();
-            shortsA[i] = (short) r.nextInt();
-            charsA[i]  = (char) r.nextInt();
-            longsA[i]  = r.nextLong();
-
             bytesB[i]  = (byte) r.nextInt();
-            shortsB[i] = (short) r.nextInt();
-            charsB[i]  = (char) r.nextInt();
-            longsB[i]  = r.nextLong();
-        }
 
-        for (int i = 0; i < count; i++) {
             gBytes[0][i]              = (byte) (bytesA[i] + (bytesB[i] >> 1));
             gBytes[MAX_TESTS][i]      = (byte) (bytesA[i] + bytesB[i]);
             gBytes[1][i]              = (byte) (bytesA[i] + (bytesB[i] >> 8));
@@ -377,7 +371,19 @@ public class TestShiftRightAndAccumulate {
             gBytes[MAX_TESTS + 6][i]  = (byte) (bytesA[i] + bytesB[i]);
             gBytes[7][i]              = (byte) (bytesA[i] + (bytesB[i] >>> 19));
             gBytes[MAX_TESTS + 7][i]  = (byte) (bytesA[i] + bytesB[i]);
+        }
 
+        for (int i = 0; i < count; i++) {
+            shortsA[i] = (short) r.nextInt();
+            charsA[i]  = (char) r.nextInt();
+            longsA[i]  = r.nextLong();
+
+            shortsB[i] = (short) r.nextInt();
+            charsB[i]  = (char) r.nextInt();
+            longsB[i]  = r.nextLong();
+        }
+
+        for (int i = 0; i < count; i++) {
             gShorts[0][i]              = (short) (shortsA[i] + (shortsB[i] >> 5));
             gShorts[MAX_TESTS][i]      = (short) (shortsA[i] + shortsB[i]);
             gShorts[1][i]              = (short) (shortsA[i] + (shortsB[i] >> 16));
